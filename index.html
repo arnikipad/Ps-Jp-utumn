@@ -1,1187 +1,1031 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>秋 — Animated Japanese Autumn Auth</title>
+<title>秋 — Japanese Autumn Login</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap"
+rel="stylesheet">
 
 <style>
+
 /* =========================================================
    RESET
 ========================================================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-:root {
-    --night: #07080e;
-    --night-2: #12101a;
+:root{
+    --bg:#08070d;
+    --bg2:#120b13;
 
-    --wine: #701923;
-    --wine-2: #a82e37;
+    --cream:#fff0cf;
+    --cream2:#e8d1a5;
 
-    --maple: #c4492d;
-    --orange: #e87532;
+    --gold:#d9a441;
+    --gold2:#ffda7b;
 
-    --gold: #d9a441;
-    --gold-light: #f6d47b;
+    --orange:#ef7432;
+    --orange2:#c7472c;
 
-    --cream: #f6e9cd;
+    --red:#8f202d;
+    --wine:#541522;
 
-    --glass: rgba(255, 245, 220, .075);
-    --glass-dark: rgba(0, 0, 0, .25);
+    --glass:rgba(255,245,220,.065);
+    --glass2:rgba(255,245,220,.035);
 
-    --border: rgba(242, 202, 114, .22);
+    --border:rgba(255,214,126,.20);
 }
 
-html {
-    font-size: 62.5%;
+/* =========================================================
+   BODY
+========================================================= */
+
+html{
+    font-size:16px;
 }
 
-body {
-    min-height: 100vh;
-    overflow: hidden;
+body{
+    min-height:100vh;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    color: var(--cream);
+    overflow:hidden;
+
+    color:var(--cream);
 
     font-family:
         "Noto Serif JP",
+        Georgia,
         serif;
 
     background:
         radial-gradient(
-            circle at 15% 20%,
-            rgba(196, 73, 45, .20),
+            circle at 10% 15%,
+            rgba(122,31,39,.42),
             transparent 30%
         ),
+
         radial-gradient(
-            circle at 85% 75%,
-            rgba(217, 164, 65, .13),
-            transparent 30%
+            circle at 90% 80%,
+            rgba(187,86,32,.18),
+            transparent 32%
         ),
+
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(80,35,65,.16),
+            transparent 45%
+        ),
+
         linear-gradient(
             135deg,
             #05060a,
-            #15111b 50%,
-            #08090f
+            #100a14 50%,
+            #08080d
         );
 }
 
-
 /* =========================================================
-   AMBIENT BACKGROUND
+   BACKGROUND GLOW
 ========================================================= */
 
-.background {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-}
+body::before{
+    content:"";
 
-.background::before {
-    content: "";
-    position: absolute;
-    inset: -30%;
+    position:fixed;
+    inset:-30%;
+
+    pointer-events:none;
+
     background:
         radial-gradient(
             circle,
-            rgba(196, 73, 45, .08),
-            transparent 35%
+            rgba(239,116,50,.07),
+            transparent 32%
         );
-    animation: ambient 12s ease-in-out infinite alternate;
+
+    animation:
+        backgroundPulse 8s ease-in-out infinite alternate;
 }
 
-@keyframes ambient {
-    from {
-        transform: scale(.9) rotate(0deg);
-        opacity: .55;
+@keyframes backgroundPulse{
+
+    from{
+        transform:scale(.95);
+        opacity:.5;
     }
 
-    to {
-        transform: scale(1.2) rotate(20deg);
-        opacity: 1;
+    to{
+        transform:scale(1.08);
+        opacity:1;
     }
 }
 
+/* =========================================================
+   JAPANESE WATERMARK
+========================================================= */
+
+.japanese{
+    position:fixed;
+
+    color:rgba(255,215,130,.025);
+
+    font-size:clamp(220px,25vw,450px);
+
+    font-weight:900;
+
+    line-height:.8;
+
+    pointer-events:none;
+    user-select:none;
+
+    z-index:0;
+}
+
+.japanese.left{
+    left:-100px;
+    bottom:-80px;
+}
+
+.japanese.right{
+    right:-80px;
+    top:-40px;
+}
 
 /* =========================================================
    MOON
 ========================================================= */
 
-.moon {
-    position: absolute;
+.moon{
+    position:fixed;
 
-    width: 175px;
-    height: 175px;
+    width:135px;
+    height:135px;
 
-    top: 8%;
-    right: 9%;
+    right:8%;
+    top:8%;
 
-    border-radius: 50%;
+    border-radius:50%;
 
     background:
         radial-gradient(
-            circle at 35% 35%,
-            #fff9e4,
-            #e8c978 55%,
-            #a66d29
+            circle at 35% 30%,
+            #fff8d9,
+            #f6d77d 48%,
+            #b8792c
         );
 
     box-shadow:
-        0 0 35px rgba(242, 202, 114, .3),
-        0 0 90px rgba(242, 202, 114, .12);
+        0 0 25px rgba(255,215,120,.45),
+        0 0 70px rgba(255,190,80,.18),
+        0 0 130px rgba(255,160,60,.08);
 
     animation:
-        moonGlow 5s ease-in-out infinite alternate;
+        moonFloat 7s ease-in-out infinite;
 }
 
-.moon::before {
-    content: "";
+.moon::after{
+    content:"";
 
-    position: absolute;
-    inset: -20px;
+    position:absolute;
 
-    border-radius: 50%;
+    width:116px;
+    height:116px;
 
-    border:
-        1px solid
-        rgba(242, 202, 114, .12);
+    left:30px;
+    top:-6px;
 
-    animation:
-        moonRing 8s linear infinite;
+    border-radius:50%;
+
+    background:#09080f;
 }
 
-.moon::after {
-    content: "";
+@keyframes moonFloat{
 
-    position: absolute;
-
-    width: 150px;
-    height: 150px;
-
-    top: -8px;
-    left: 27px;
-
-    border-radius: 50%;
-
-    background: #0a0b12;
-}
-
-@keyframes moonGlow {
-    from {
-        transform: scale(.96);
-        box-shadow:
-            0 0 30px rgba(242, 202, 114, .25),
-            0 0 70px rgba(242, 202, 114, .08);
+    0%,100%{
+        transform:translateY(0);
     }
 
-    to {
-        transform: scale(1.04);
-        box-shadow:
-            0 0 55px rgba(242, 202, 114, .4),
-            0 0 120px rgba(242, 202, 114, .15);
+    50%{
+        transform:translateY(-10px);
     }
 }
-
-@keyframes moonRing {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 
 /* =========================================================
-   MIST
+   STARS
 ========================================================= */
 
-.mist {
-    position: absolute;
+.stars{
+    position:fixed;
+    inset:0;
 
-    width: 75vw;
-    height: 180px;
-
-    left: -15%;
-    bottom: 4%;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255, 220, 170, .035);
-
-    filter: blur(35px);
-
-    transform: rotate(-8deg);
-
-    animation:
-        mistMove 10s ease-in-out infinite alternate;
+    pointer-events:none;
 }
 
-@keyframes mistMove {
-    from {
-        transform: translateX(-5%) rotate(-8deg);
-    }
+.star{
+    position:absolute;
 
-    to {
-        transform: translateX(20%) rotate(-5deg);
-    }
-}
+    width:4px;
+    height:4px;
 
+    border-radius:50%;
 
-/* =========================================================
-   KANJI
-========================================================= */
-
-.kanji {
-    position: fixed;
-
-    z-index: 0;
-
-    color:
-        rgba(242, 202, 114, .035);
-
-    font-size: 28rem;
-    font-weight: 900;
-
-    line-height: 1;
-
-    user-select: none;
-    pointer-events: none;
-
-    animation:
-        kanjiFloat 8s ease-in-out infinite alternate;
-}
-
-.kanji.left {
-    left: -70px;
-    bottom: -60px;
-}
-
-.kanji.right {
-    right: -50px;
-    top: 0;
-
-    font-size: 22rem;
-
-    animation-delay: -3s;
-}
-
-@keyframes kanjiFloat {
-    from {
-        transform: translateY(0) rotate(-3deg);
-    }
-
-    to {
-        transform: translateY(-25px) rotate(3deg);
-    }
-}
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-.particles {
-    position: fixed;
-    inset: 0;
-
-    pointer-events: none;
-}
-
-.particle {
-    position: absolute;
-
-    width: 3px;
-    height: 3px;
-
-    border-radius: 50%;
-
-    background: var(--gold-light);
+    background:var(--gold2);
 
     box-shadow:
-        0 0 8px var(--gold-light);
-
-    opacity: .35;
+        0 0 8px var(--gold2),
+        0 0 15px rgba(255,210,100,.6);
 
     animation:
-        particleFloat var(--time) ease-in-out infinite alternate;
+        twinkle var(--speed) ease-in-out infinite alternate;
 }
 
-.particle:nth-child(1) {
-    left: 10%;
-    top: 30%;
-    --time: 6s;
+.star:nth-child(1){
+    left:13%;
+    top:20%;
+    --speed:2.2s;
 }
 
-.particle:nth-child(2) {
-    left: 25%;
-    top: 70%;
-    --time: 8s;
+.star:nth-child(2){
+    left:29%;
+    top:74%;
+    --speed:3s;
 }
 
-.particle:nth-child(3) {
-    left: 42%;
-    top: 15%;
-    --time: 5s;
+.star:nth-child(3){
+    left:43%;
+    top:17%;
+    --speed:2.6s;
 }
 
-.particle:nth-child(4) {
-    left: 68%;
-    top: 30%;
-    --time: 7s;
+.star:nth-child(4){
+    left:69%;
+    top:31%;
+    --speed:1.8s;
 }
 
-.particle:nth-child(5) {
-    left: 82%;
-    top: 65%;
-    --time: 9s;
+.star:nth-child(5){
+    left:83%;
+    top:63%;
+    --speed:3.4s;
 }
 
-.particle:nth-child(6) {
-    left: 55%;
-    top: 85%;
-    --time: 6s;
+.star:nth-child(6){
+    left:57%;
+    top:84%;
+    --speed:2.4s;
 }
 
-@keyframes particleFloat {
-    from {
-        transform:
-            translate(0, 0)
-            scale(.6);
-        opacity: .15;
+@keyframes twinkle{
+
+    from{
+        opacity:.15;
+        transform:scale(.5);
     }
 
-    to {
-        transform:
-            translate(30px, -45px)
-            scale(1.4);
-        opacity: .7;
+    to{
+        opacity:1;
+        transform:scale(1.5);
     }
 }
-
 
 /* =========================================================
    FALLING LEAVES
 ========================================================= */
 
-.leaves {
-    position: fixed;
-    inset: 0;
+.leaves{
+    position:fixed;
+    inset:0;
 
-    z-index: 2;
+    overflow:hidden;
 
-    overflow: hidden;
+    pointer-events:none;
 
-    pointer-events: none;
+    z-index:1;
 }
 
-.leaf {
-    position: absolute;
+.leaf{
+    position:absolute;
 
-    top: -70px;
+    top:-50px;
 
-    width: 22px;
-    height: 22px;
+    width:25px;
+    height:25px;
 
-    background: var(--leaf-color);
+    background:var(--color);
 
     clip-path:
         polygon(
             50% 0%,
-            63% 28%,
+            62% 28%,
             100% 18%,
-            76% 50%,
+            75% 48%,
             95% 85%,
-            57% 67%,
+            57% 68%,
             50% 100%,
-            43% 67%,
+            43% 68%,
             5% 85%,
-            24% 50%,
+            25% 48%,
             0% 18%,
-            37% 28%
+            38% 28%
         );
+
+    opacity:.85;
 
     filter:
-        drop-shadow(
-            0 4px 6px rgba(0,0,0,.4)
-        );
-
-    opacity: .8;
+        drop-shadow(0 3px 5px rgba(0,0,0,.5));
 
     animation:
-        leafFall var(--fall)
-        linear infinite;
+        leafFall var(--time) linear infinite;
 
-    animation-delay: var(--delay);
+    animation-delay:var(--delay);
 }
 
-.leaf:nth-child(1) {
-    left: 4%;
-    --leaf-color: #a92e36;
-    --fall: 12s;
-    --delay: -2s;
+.leaf:nth-child(1){
+    left:4%;
+    --color:#a72b31;
+    --time:11s;
+    --delay:-4s;
 }
 
-.leaf:nth-child(2) {
-    left: 16%;
-    --leaf-color: #d97a32;
-    --fall: 15s;
-    --delay: -8s;
+.leaf:nth-child(2){
+    left:14%;
+    --color:#dc7131;
+    --time:14s;
+    --delay:-9s;
 }
 
-.leaf:nth-child(3) {
-    left: 29%;
-    --leaf-color: #d9a441;
-    --fall: 11s;
-    --delay: -4s;
+.leaf:nth-child(3){
+    left:25%;
+    --color:#d9a441;
+    --time:10s;
+    --delay:-2s;
 }
 
-.leaf:nth-child(4) {
-    left: 43%;
-    --leaf-color: #8e292b;
-    --fall: 16s;
-    --delay: -12s;
+.leaf:nth-child(4){
+    left:39%;
+    --color:#8c202b;
+    --time:16s;
+    --delay:-12s;
 }
 
-.leaf:nth-child(5) {
-    left: 58%;
-    --leaf-color: #e87532;
-    --fall: 13s;
-    --delay: -5s;
+.leaf:nth-child(5){
+    left:53%;
+    --color:#ef7935;
+    --time:13s;
+    --delay:-5s;
 }
 
-.leaf:nth-child(6) {
-    left: 73%;
-    --leaf-color: #c4492d;
-    --fall: 17s;
-    --delay: -10s;
+.leaf:nth-child(6){
+    left:68%;
+    --color:#b83b2d;
+    --time:15s;
+    --delay:-10s;
 }
 
-.leaf:nth-child(7) {
-    left: 88%;
-    --leaf-color: #d9a441;
-    --fall: 12s;
-    --delay: -7s;
+.leaf:nth-child(7){
+    left:82%;
+    --color:#e0a841;
+    --time:12s;
+    --delay:-3s;
 }
 
-.leaf:nth-child(8) {
-    left: 96%;
-    --leaf-color: #a92e36;
-    --fall: 14s;
-    --delay: -3s;
+.leaf:nth-child(8){
+    left:94%;
+    --color:#9d2930;
+    --time:17s;
+    --delay:-7s;
 }
 
-@keyframes leafFall {
-    0% {
+@keyframes leafFall{
+
+    0%{
         transform:
-            translate3d(0, -80px, 0)
+            translate3d(0,-80px,0)
             rotate(0deg);
     }
 
-    25% {
+    25%{
         transform:
-            translate3d(90px, 25vh, 0)
+            translate3d(90px,25vh,0)
             rotate(100deg);
     }
 
-    50% {
+    50%{
         transform:
-            translate3d(-70px, 55vh, 0)
-            rotate(220deg);
+            translate3d(-50px,52vh,0)
+            rotate(210deg);
     }
 
-    75% {
+    75%{
         transform:
-            translate3d(110px, 80vh, 0)
+            translate3d(100px,78vh,0)
             rotate(290deg);
     }
 
-    100% {
+    100%{
         transform:
-            translate3d(-50px, 115vh, 0)
-            rotate(420deg);
+            translate3d(-80px,115vh,0)
+            rotate(390deg);
     }
 }
-
 
 /* =========================================================
-   AUTH SCENE
+   FIREFLIES
 ========================================================= */
 
-.scene {
-    position: relative;
+.fireflies{
+    position:fixed;
+    inset:0;
 
-    z-index: 10;
-
-    width: min(92vw, 920px);
-
-    height: 570px;
-
-    perspective: 1800px;
+    pointer-events:none;
 }
 
-.auth {
-    position: relative;
+.firefly{
+    position:absolute;
 
-    width: 100%;
-    height: 100%;
+    width:5px;
+    height:5px;
 
-    transform-style: preserve-3d;
+    border-radius:50%;
 
-    animation:
-        sceneIn 1s
-        cubic-bezier(.2,.8,.2,1)
-        both;
-}
-
-@keyframes sceneIn {
-    from {
-        opacity: 0;
-        transform:
-            translateY(40px)
-            scale(.94)
-            rotateX(8deg);
-    }
-
-    to {
-        opacity: 1;
-        transform:
-            translateY(0)
-            scale(1)
-            rotateX(0);
-    }
-}
-
-
-/* =========================================================
-   PANELS
-========================================================= */
-
-.form-panel {
-    position: absolute;
-
-    top: 0;
-
-    width: 50%;
-    height: 100%;
-
-    padding: 45px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.09),
-            rgba(255,255,255,.025)
-        );
-
-    border: 1px solid var(--border);
-
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    background:#ffd86d;
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 25px 80px rgba(0,0,0,.3);
+        0 0 8px #ffd86d,
+        0 0 20px rgba(255,185,70,.7);
+
+    animation:
+        fireflyMove 6s ease-in-out infinite alternate;
+}
+
+.firefly:nth-child(1){
+    left:21%;
+    top:40%;
+}
+
+.firefly:nth-child(2){
+    left:75%;
+    top:45%;
+    animation-delay:1s;
+}
+
+.firefly:nth-child(3){
+    left:62%;
+    top:76%;
+    animation-delay:2s;
+}
+
+.firefly:nth-child(4){
+    left:34%;
+    top:83%;
+    animation-delay:3s;
+}
+
+@keyframes fireflyMove{
+
+    0%{
+        opacity:.15;
+        transform:translate(0,0);
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:.2;
+        transform:translate(30px,-25px);
+    }
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.scene{
+    position:relative;
+
+    z-index:10;
+
+    width:min(1000px,92vw);
+    height:620px;
+
+    perspective:1600px;
+}
+
+/* =========================================================
+   AUTH CARD
+========================================================= */
+
+.auth{
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    overflow:hidden;
+
+    border:
+        1px solid rgba(255,215,130,.25);
+
+    border-radius:32px;
+
+    background:
+        rgba(12,10,16,.76);
+
+    box-shadow:
+        0 40px 100px rgba(0,0,0,.65),
+        0 0 80px rgba(190,70,35,.08),
+        inset 0 1px 0 rgba(255,255,255,.08);
+
+    backdrop-filter:blur(28px);
+    -webkit-backdrop-filter:blur(28px);
+
+    transition:
+        box-shadow .8s ease;
+}
+
+.auth.register-mode{
+    box-shadow:
+        0 40px 100px rgba(0,0,0,.65),
+        0 0 90px rgba(217,164,65,.12),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* =========================================================
+   FORM SIDE
+========================================================= */
+
+.forms{
+    position:relative;
+
+    min-width:0;
+    height:100%;
+}
+
+.panel{
+    position:absolute;
+
+    inset:0;
+
+    padding:50px 55px;
+
+    display:flex;
+    align-items:center;
 
     transition:
         opacity .55s ease,
-        transform .65s cubic-bezier(.2,.8,.2,1);
+        transform .7s cubic-bezier(.65,.05,.36,1),
+        visibility .55s ease;
 }
 
-.form-panel::before {
-    content: "";
-
-    position: absolute;
-
-    width: 180px;
-    height: 180px;
-
-    top: -90px;
-    right: -90px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(217,164,65,.08);
-
-    filter: blur(30px);
-
-    animation:
-        panelGlow 5s ease-in-out infinite alternate;
+.login-panel{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(0);
 }
 
-@keyframes panelGlow {
-    from {
-        transform: scale(.8);
-        opacity: .3;
-    }
-
-    to {
-        transform: scale(1.3);
-        opacity: .8;
-    }
+.signup-panel{
+    opacity:0;
+    visibility:hidden;
+    transform:translateX(60px);
 }
 
-.login-panel {
-    left: 0;
-
-    border-radius:
-        28px 0 0 28px;
+.auth.register-mode .login-panel{
+    opacity:0;
+    visibility:hidden;
+    transform:translateX(-60px);
 }
 
-.signup-panel {
-    right: 0;
-
-    border-radius:
-        0 28px 28px 0;
+.auth.register-mode .signup-panel{
+    opacity:1;
+    visibility:visible;
+    transform:translateX(0);
 }
 
-
-/* =========================================================
-   FORM INNER
-========================================================= */
-
-.form-inner {
-    width: 100%;
-    max-width: 330px;
+.inner{
+    width:100%;
+    max-width:390px;
+    margin:auto;
 }
-
 
 /* =========================================================
    BRAND
 ========================================================= */
 
-.brand {
-    display: flex;
-    align-items: center;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
 
-    gap: 12px;
-
-    margin-bottom: 20px;
-
-    animation:
-        contentUp .8s .2s both;
+    margin-bottom:20px;
 }
 
-.brand-mark {
-    width: 46px;
-    height: 46px;
+.brand-icon{
+    width:46px;
+    height:46px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    color: #160b08;
+    color:#271008;
 
     background:
         linear-gradient(
             135deg,
-            var(--gold-light),
-            var(--orange)
+            #ffe28e,
+            #ef7833
         );
 
     box-shadow:
-        0 0 20px rgba(217,164,65,.22);
+        0 0 25px rgba(239,116,50,.25);
 
-    font-size: 2rem;
-
-    animation:
-        markPulse 4s ease-in-out infinite;
+    font-size:20px;
+    font-weight:900;
 }
 
-@keyframes markPulse {
-    0%, 100% {
-        box-shadow:
-            0 0 20px rgba(217,164,65,.2);
-    }
+.brand strong{
+    display:block;
 
-    50% {
-        box-shadow:
-            0 0 35px rgba(217,164,65,.45);
-    }
+    color:var(--gold2);
+
+    font-size:14px;
+
+    letter-spacing:4px;
 }
 
-.brand-text strong {
-    display: block;
+.brand span{
+    display:block;
 
-    color: var(--gold-light);
+    margin-top:2px;
 
-    font-size: 1.5rem;
-
-    letter-spacing: 2px;
-}
-
-.brand-text span {
-    color:
-        rgba(244,230,200,.4);
+    color:rgba(255,240,207,.4);
 
     font-family:
         "Cormorant Garamond",
         serif;
 
-    font-size: 1.2rem;
+    font-size:14px;
 }
-
 
 /* =========================================================
    TITLES
 ========================================================= */
 
-.japanese-title {
-    color: var(--gold);
+.jp{
+    color:var(--gold);
 
-    font-size: 1.15rem;
+    margin-bottom:7px;
 
-    letter-spacing: 5px;
+    font-size:12px;
 
-    margin-bottom: 8px;
-
-    animation:
-        contentUp .8s .3s both;
+    letter-spacing:6px;
 }
 
-h1 {
-    margin-bottom: 5px;
+h1{
+    margin-bottom:7px;
 
-    color: var(--cream);
+    color:var(--cream);
 
     font-family:
         "Cormorant Garamond",
         serif;
 
-    font-size: 4rem;
+    font-size:44px;
 
-    font-weight: 600;
+    font-weight:600;
 
-    animation:
-        contentUp .8s .4s both;
+    line-height:1.05;
 }
 
-.subtitle {
-    margin-bottom: 22px;
+.subtitle{
+    margin-bottom:25px;
 
-    color:
-        rgba(244,230,200,.48);
+    color:rgba(255,240,207,.48);
 
-    font-size: 1.15rem;
+    font-size:13px;
 
-    line-height: 1.7;
-
-    animation:
-        contentUp .8s .5s both;
+    line-height:1.7;
 }
-
-@keyframes contentUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 
 /* =========================================================
-   FIELDS
+   FORM
 ========================================================= */
 
-.field {
-    position: relative;
+.field{
+    position:relative;
 
-    margin-bottom: 14px;
-
-    animation:
-        contentUp .7s both;
+    margin-bottom:15px;
 }
 
-.field:nth-child(1) {
-    animation-delay: .55s;
+.field label{
+    display:block;
+
+    margin-bottom:7px;
+
+    color:rgba(255,240,207,.63);
+
+    font-size:12px;
 }
 
-.field:nth-child(2) {
-    animation-delay: .65s;
-}
+.field input{
+    width:100%;
 
-.field:nth-child(3) {
-    animation-delay: .75s;
-}
+    height:48px;
 
-.field:nth-child(4) {
-    animation-delay: .85s;
-}
+    padding:0 44px 0 15px;
 
-.field-label {
-    display: block;
-
-    margin-bottom: 6px;
-
-    color:
-        rgba(244,230,200,.65);
-
-    font-size: 1rem;
-}
-
-.field input {
-    width: 100%;
-
-    padding: 13px 45px 13px 15px;
-
-    outline: none;
+    outline:none;
 
     border:
-        1px solid
-        rgba(244,230,200,.14);
+        1px solid rgba(255,230,180,.13);
 
-    border-radius: 10px;
+    border-radius:10px;
 
-    color: var(--cream);
+    color:var(--cream);
 
     background:
-        rgba(0,0,0,.23);
+        rgba(0,0,0,.25);
 
-    font-family: inherit;
-
-    font-size: 1.2rem;
+    font-family:inherit;
+    font-size:13px;
 
     transition:
-        border .3s,
-        box-shadow .3s,
-        transform .3s,
-        background .3s;
+        .3s ease;
 }
 
-.field input:hover {
-    border-color:
-        rgba(242,202,114,.35);
+.field input::placeholder{
+    color:rgba(255,240,207,.23);
 }
 
-.field input:focus {
+.field input:hover{
     border-color:
-        rgba(242,202,114,.75);
+        rgba(255,210,120,.28);
+}
+
+.field input:focus{
+    border-color:
+        rgba(255,205,110,.65);
 
     background:
         rgba(0,0,0,.34);
 
-    transform:
-        translateY(-1px);
+    box-shadow:
+        0 0 0 3px rgba(217,164,65,.06),
+        0 0 25px rgba(217,164,65,.13);
+}
+
+/* password */
+
+.password input:focus{
+    border-color:#e15c35;
 
     box-shadow:
-        0 0 0 3px
-        rgba(217,164,65,.06),
-
-        0 0 25px
-        rgba(217,164,65,.13);
+        0 0 0 3px rgba(225,92,53,.07),
+        0 0 18px rgba(225,92,53,.32),
+        0 0 35px rgba(217,164,65,.08);
 }
 
-.field input::placeholder {
-    color:
-        rgba(244,230,200,.25);
+.password::after{
+    content:"秘密";
+
+    position:absolute;
+
+    top:27px;
+    right:12px;
+
+    color:rgba(255,215,120,.35);
+
+    font-size:9px;
+
+    pointer-events:none;
 }
 
-.field-icon {
-    position: absolute;
+.password .show{
+    position:absolute;
 
-    right: 15px;
-    bottom: 13px;
+    right:12px;
+    bottom:13px;
 
-    color:
-        rgba(242,202,114,.55);
+    z-index:2;
 
-    font-size: 1.4rem;
+    border:0;
+    outline:0;
 
-    pointer-events: none;
+    color:rgba(255,240,207,.45);
 
-    transition:
-        transform .3s,
-        color .3s;
+    background:transparent;
+
+    cursor:pointer;
+
+    font-family:inherit;
+    font-size:10px;
+
+    transition:.2s;
 }
 
-.field:focus-within .field-icon {
-    color: var(--gold-light);
-
-    transform:
-        scale(1.15)
-        rotate(5deg);
+.password .show:hover{
+    color:var(--gold2);
 }
-
-
-/* =========================================================
-   PASSWORD
-========================================================= */
-
-.password-field input:focus {
-    border-color:
-        var(--maple);
-
-    box-shadow:
-        0 0 0 2px
-        rgba(196,73,45,.08),
-
-        0 0 12px
-        rgba(196,73,45,.35),
-
-        0 0 30px
-        rgba(217,164,65,.12);
-}
-
-.password-field::after {
-    content: "秘密の鍵";
-
-    position: absolute;
-
-    right: 10px;
-    top: -7px;
-
-    padding: 0 5px;
-
-    color:
-        rgba(217,164,65,.4);
-
-    background:
-        #101017;
-
-    font-size: .72rem;
-
-    letter-spacing: 1px;
-}
-
-.show-password {
-    position: absolute;
-
-    right: 13px;
-    bottom: 12px;
-
-    z-index: 2;
-
-    border: none;
-
-    background: transparent;
-
-    color:
-        rgba(244,230,200,.45);
-
-    cursor: pointer;
-
-    font-family: inherit;
-
-    font-size: .9rem;
-
-    transition:
-        color .25s,
-        transform .25s;
-}
-
-.show-password:hover {
-    color: var(--gold-light);
-
-    transform: scale(1.05);
-}
-
-.password-field .field-icon {
-    display: none;
-}
-
 
 /* =========================================================
    OPTIONS
 ========================================================= */
 
-.options {
-    display: flex;
+.options{
+    display:flex;
 
-    justify-content: space-between;
-    align-items: center;
+    align-items:center;
+    justify-content:space-between;
 
-    margin: 4px 0 18px;
+    margin:3px 0 19px;
 
-    font-size: .95rem;
+    font-size:11px;
 }
 
-.remember {
-    display: flex;
+.remember{
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 7px;
+    gap:7px;
 
-    color:
-        rgba(244,230,200,.45);
+    color:rgba(255,240,207,.43);
 
-    cursor: pointer;
-
-    font-size: .95rem;
+    cursor:pointer;
 }
 
-.remember input {
-    accent-color: var(--maple);
+.remember input{
+    width:13px;
+    height:13px;
 
-    cursor: pointer;
+    accent-color:var(--orange);
 }
 
-.forgot {
-    color: var(--gold);
+.forgot{
+    color:var(--gold);
 
-    text-decoration: none;
+    text-decoration:none;
 
-    transition:
-        color .25s,
-        text-shadow .25s;
+    cursor:pointer;
 }
 
-.forgot:hover {
-    color: var(--gold-light);
-
-    text-shadow:
-        0 0 12px rgba(242,202,114,.45);
+.forgot:hover{
+    color:var(--gold2);
 }
-
 
 /* =========================================================
    BUTTON
 ========================================================= */
 
-.main-button {
-    position: relative;
+.main-button{
+    position:relative;
 
-    width: 100%;
+    width:100%;
+    height:50px;
 
-    padding: 14px;
+    overflow:hidden;
 
-    overflow: hidden;
+    border:0;
+    border-radius:10px;
 
-    border: none;
-
-    border-radius: 10px;
-
-    color: #170c08;
+    color:#210d07;
 
     background:
         linear-gradient(
             110deg,
-            var(--gold-light),
-            var(--orange),
-            var(--maple)
+            #ffe18b,
+            #ef8439,
+            #c84a2e,
+            #ffe18b
         );
 
-    background-size: 200% 100%;
+    background-size:300% 100%;
 
-    font-family: inherit;
+    font-family:inherit;
 
-    font-size: 1.15rem;
+    font-size:13px;
+    font-weight:700;
 
-    font-weight: 700;
+    letter-spacing:1px;
 
-    letter-spacing: 1px;
-
-    cursor: pointer;
+    cursor:pointer;
 
     box-shadow:
-        0 8px 25px rgba(196,73,45,.2);
+        0 8px 25px rgba(200,74,46,.2);
+
+    animation:
+        buttonGradient 5s linear infinite;
 
     transition:
-        .35s;
+        transform .25s,
+        box-shadow .25s;
 }
 
-.main-button::before {
-    content: "";
+.main-button::before{
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    top: 0;
-    left: -120%;
+    top:0;
+    left:-100%;
 
-    width: 70%;
-    height: 100%;
+    width:60%;
+    height:100%;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.5),
+            rgba(255,255,255,.35),
             transparent
         );
 
-    transform: skewX(-20deg);
-
-    transition:
-        left .7s ease;
-}
-
-.main-button:hover {
-    background-position: 100% 0;
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 12px 38px rgba(196,73,45,.38);
-}
-
-.main-button:hover::before {
-    left: 140%;
-}
-
-.main-button:active {
-    transform:
-        translateY(0)
-        scale(.98);
-}
-
-
-/* =========================================================
-   ORNAMENT
-========================================================= */
-
-.ornament {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    margin: 18px 0;
-
-    color:
-        rgba(217,164,65,.4);
-
-    font-size: 1rem;
+    transform:skewX(-20deg);
 
     animation:
-        ornamentGlow 3s ease-in-out infinite alternate;
+        shine 3.5s infinite;
 }
 
-.ornament::before,
-.ornament::after {
-    content: "";
+.main-button:hover{
+    transform:translateY(-2px);
 
-    height: 1px;
+    box-shadow:
+        0 12px 35px rgba(224,91,45,.35);
+}
 
-    flex: 1;
+.main-button:active{
+    transform:scale(.98);
+}
+
+@keyframes buttonGradient{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    100%{
+        background-position:300% 50%;
+    }
+}
+
+@keyframes shine{
+
+    0%{
+        left:-100%;
+    }
+
+    45%,100%{
+        left:140%;
+    }
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin:20px 0;
+
+    color:rgba(217,164,65,.4);
+
+    font-size:12px;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+
+    height:1px;
+
+    flex:1;
 
     background:
         linear-gradient(
@@ -1191,7 +1035,7 @@ h1 {
         );
 }
 
-.ornament::after {
+.divider::after{
     background:
         linear-gradient(
             90deg,
@@ -1200,1040 +1044,800 @@ h1 {
         );
 }
 
-@keyframes ornamentGlow {
-    from {
-        opacity: .45;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-
 /* =========================================================
    SWITCH
 ========================================================= */
 
-.switch {
-    text-align: center;
+.switch{
+    text-align:center;
 
-    color:
-        rgba(244,230,200,.42);
+    color:rgba(255,240,207,.4);
 
-    font-size: 1rem;
+    font-size:11px;
 }
 
-.switch button {
-    border: none;
+.switch button{
+    margin-left:4px;
 
-    background: none;
+    border:0;
 
-    color:
-        var(--gold-light);
+    color:var(--gold2);
 
-    cursor: pointer;
+    background:none;
 
-    font-family: inherit;
+    cursor:pointer;
 
-    font-weight: 700;
+    font-family:inherit;
 
-    transition:
-        color .25s,
-        text-shadow .25s;
+    font-size:11px;
+    font-weight:700;
 }
 
-.switch button:hover {
-    color: white;
-
+.switch button:hover{
     text-shadow:
-        0 0 15px
-        rgba(242,202,114,.5);
+        0 0 12px rgba(255,210,110,.5);
 }
-
 
 /* =========================================================
-   DESKTOP STATE
+   ART
 ========================================================= */
 
-/* Login visible */
-.login-panel {
-    opacity: 1;
+.art{
+    position:relative;
 
-    transform:
-        translateX(0)
-        scale(1);
+    overflow:hidden;
 
-    pointer-events: auto;
-}
+    min-width:0;
 
-/* Signup hidden */
-.signup-panel {
-    opacity: 0;
+    display:flex;
 
-    transform:
-        translateX(35px)
-        scale(.98);
+    align-items:center;
+    justify-content:center;
 
-    pointer-events: none;
-}
-
-/* Art */
-.art {
-    position: absolute;
-
-    top: 0;
-    right: 0;
-
-    width: 50%;
-    height: 100%;
-
-    overflow: hidden;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    border-radius:
-        0 28px 28px 0;
+    text-align:center;
 
     background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(238,120,48,.30),
+            transparent 28%
+        ),
+
         linear-gradient(
             145deg,
-            rgba(111,24,34,.94),
-            rgba(196,73,45,.72)
+            rgba(89,22,35,.96),
+            rgba(34,13,24,.95)
         );
+}
+
+.art::before{
+    content:"";
+
+    position:absolute;
+
+    width:390px;
+    height:390px;
+
+    border-radius:50%;
 
     border:
-        1px solid
-        rgba(242,202,114,.25);
-
-    z-index: 20;
-
-    transform-origin:
-        left center;
-
-    backface-visibility: hidden;
+        1px solid rgba(255,218,130,.22);
 
     box-shadow:
-        15px 0 70px
-        rgba(0,0,0,.25);
-
-    transition:
-        transform .8s
-        cubic-bezier(.65,.05,.36,1);
-}
-
-.art::before {
-    content: "";
-
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    border-radius: 50%;
-
-    border:
-        1px solid
-        rgba(242,202,114,.25);
-
-    box-shadow:
-        0 0 0 30px rgba(242,202,114,.025),
-        0 0 0 70px rgba(242,202,114,.02),
-        0 0 80px rgba(0,0,0,.25);
+        0 0 0 35px rgba(255,210,110,.025),
+        0 0 0 75px rgba(255,210,110,.018),
+        0 0 100px rgba(0,0,0,.3);
 
     animation:
-        artRing 8s linear infinite;
+        artPulse 6s ease-in-out infinite;
 }
 
-.art::after {
-    content: "秋";
+@keyframes artPulse{
 
-    position: absolute;
+    0%,100%{
+        transform:scale(.96);
+        opacity:.7;
+    }
 
-    font-size: 25rem;
+    50%{
+        transform:scale(1.03);
+        opacity:1;
+    }
+}
 
-    color:
-        rgba(255,244,218,.045);
+.art::after{
+    content:"秋";
 
-    font-weight: 900;
+    position:absolute;
+
+    right:-25px;
+    bottom:-75px;
+
+    color:rgba(255,240,210,.045);
+
+    font-size:310px;
+
+    font-weight:900;
+
+    line-height:1;
+}
+
+.art-content{
+    position:relative;
+
+    z-index:3;
+
+    width:75%;
 
     animation:
-        artKanji 6s ease-in-out infinite alternate;
+        artFloat 5s ease-in-out infinite;
 }
 
-@keyframes artRing {
-    to {
-        transform: rotate(360deg);
+@keyframes artFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-8px);
     }
 }
 
-@keyframes artKanji {
-    from {
-        transform:
-            scale(.96)
-            rotate(-3deg);
-    }
+.art-season{
+    margin-bottom:16px;
 
-    to {
-        transform:
-            scale(1.04)
-            rotate(3deg);
-    }
+    color:var(--gold2);
+
+    font-size:11px;
+
+    letter-spacing:7px;
 }
 
-.art-content {
-    position: relative;
+.art h2{
+    margin-bottom:15px;
 
-    z-index: 3;
-
-    width: 75%;
-
-    animation:
-        artContent 1s .4s both;
-}
-
-@keyframes artContent {
-    from {
-        opacity: 0;
-        transform:
-            translateX(25px)
-            scale(.95);
-    }
-
-    to {
-        opacity: 1;
-        transform:
-            translateX(0)
-            scale(1);
-    }
-}
-
-.art-season {
-    margin-bottom: 15px;
-
-    color:
-        var(--gold-light);
-
-    font-size: 1.1rem;
-
-    letter-spacing: 7px;
-}
-
-.art h2 {
-    margin-bottom: 15px;
-
-    color: white;
+    color:white;
 
     font-family:
         "Cormorant Garamond",
         serif;
 
-    font-size: 4.5rem;
+    font-size:54px;
 
-    font-weight: 600;
+    font-weight:600;
+
+    text-shadow:
+        0 0 25px rgba(255,220,150,.15);
 }
 
-.art p {
-    margin-bottom: 25px;
+.art p{
+    margin:auto auto 25px;
 
-    color:
-        rgba(255,255,255,.72);
+    max-width:300px;
 
-    font-size: 1.15rem;
+    color:rgba(255,255,255,.65);
 
-    line-height: 1.8;
+    font-size:13px;
+
+    line-height:1.9;
 }
 
-.art-button {
-    display: inline-flex;
+.art-button{
+    height:44px;
 
-    align-items: center;
-
-    gap: 12px;
-
-    padding: 12px 25px;
+    padding:0 25px;
 
     border:
-        1px solid
-        rgba(255,255,255,.5);
+        1px solid rgba(255,230,180,.45);
 
-    border-radius: 30px;
+    border-radius:30px;
 
-    color: white;
-
-    background:
-        rgba(255,255,255,.06);
-
-    backdrop-filter: blur(8px);
-
-    font-family: inherit;
-
-    font-size: 1.05rem;
-
-    cursor: pointer;
-
-    transition:
-        .35s;
-}
-
-.art-button span:last-child {
-    transition:
-        transform .35s;
-}
-
-.art-button:hover {
-    color: #58151d;
+    color:white;
 
     background:
-        var(--gold-light);
+        rgba(255,255,255,.055);
 
-    border-color:
-        var(--gold-light);
+    backdrop-filter:blur(10px);
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-size:11px;
+
+    transition:.3s;
+}
+
+.art-button:hover{
+    color:#4d151c;
+
+    background:var(--gold2);
+
+    border-color:var(--gold2);
 
     box-shadow:
-        0 0 30px
-        rgba(242,202,114,.35);
+        0 0 30px rgba(255,210,110,.3);
 
-    transform:
-        translateY(-3px);
+    transform:translateY(-2px);
 }
-
-.art-button:hover span:last-child {
-    transform:
-        translateX(5px);
-}
-
 
 /* =========================================================
-   REGISTER STATE
+   ART SLIDE
 ========================================================= */
 
-.auth.register-mode .login-panel {
-    opacity: 0;
-
-    transform:
-        translateX(-35px)
-        scale(.98);
-
-    pointer-events: none;
+.art-content{
+    transition:
+        transform .7s cubic-bezier(.65,.05,.36,1);
 }
 
-.auth.register-mode .signup-panel {
-    opacity: 1;
-
-    transform:
-        translateX(0)
-        scale(1);
-
-    pointer-events: auto;
+.auth.register-mode .art-content{
+    transform:translateY(-8px) scale(.98);
 }
-
-.auth.register-mode .art {
-    transform:
-        translateX(-100%)
-        rotateY(-180deg);
-}
-
-
-/* =========================================================
-   LOGIN STATE
-========================================================= */
-
-.auth.login-mode .art {
-    transform:
-        translateX(0)
-        rotateY(0deg);
-}
-
 
 /* =========================================================
    TOAST
 ========================================================= */
 
-.toast {
-    position: fixed;
+.toast{
+    position:fixed;
 
-    z-index: 100;
+    left:50%;
+    bottom:28px;
 
-    left: 50%;
-    bottom: 25px;
+    z-index:100;
 
-    transform:
-        translate(-50%, 100px)
-        scale(.9);
-
-    min-width: 260px;
-
-    padding: 13px 22px;
+    padding:13px 22px;
 
     border:
-        1px solid
-        rgba(242,202,114,.25);
+        1px solid rgba(255,215,130,.25);
 
-    border-radius: 10px;
+    border-radius:12px;
 
-    color: var(--cream);
+    color:var(--cream);
 
     background:
-        rgba(17,16,24,.92);
-
-    backdrop-filter: blur(15px);
+        rgba(15,12,19,.92);
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,.4),
-        0 0 25px rgba(217,164,65,.08);
+        0 15px 45px rgba(0,0,0,.5),
+        0 0 30px rgba(217,164,65,.08);
 
-    text-align: center;
+    backdrop-filter:blur(15px);
 
-    font-size: 1.05rem;
+    font-size:12px;
 
-    opacity: 0;
+    opacity:0;
 
-    pointer-events: none;
-
-    transition:
-        .45s cubic-bezier(.2,.8,.2,1);
-}
-
-.toast.show {
-    opacity: 1;
+    pointer-events:none;
 
     transform:
-        translate(-50%, 0)
-        scale(1);
+        translate(-50%,80px);
+
+    transition:.45s ease;
 }
 
+.toast.show{
+    opacity:1;
+
+    transform:
+        translate(-50%,0);
+}
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media (max-width: 760px) {
+@media(max-width:800px){
 
-    body {
-        overflow-y: auto;
+    body{
+        overflow-y:auto;
 
-        padding: 25px 15px;
+        padding:25px 15px;
     }
 
-    .moon {
-        width: 100px;
-        height: 100px;
+    .moon{
+        width:90px;
+        height:90px;
 
-        top: 4%;
-        right: 4%;
+        right:5%;
+        top:4%;
     }
 
-    .moon::after {
-        width: 85px;
-        height: 85px;
+    .moon::after{
+        width:76px;
+        height:76px;
 
-        left: 20px;
+        left:20px;
+        top:-4px;
     }
 
-    .kanji {
-        font-size: 16rem;
+    .scene{
+        width:100%;
+        max-width:460px;
+
+        height:650px;
     }
 
-    .scene {
-        width: 100%;
-        max-width: 430px;
+    .auth{
+        display:block;
 
-        height: 680px;
+        height:650px;
 
-        perspective: none;
+        border-radius:25px;
     }
 
-    .auth {
-        height: 680px;
-
-        transform-style: flat;
+    .forms{
+        height:100%;
     }
 
-    .form-panel {
-        width: 100%;
-        height: 100%;
-
-        padding: 30px 25px;
-
-        border-radius: 25px;
-
-        transition:
-            opacity .45s ease,
-            transform .45s ease;
+    .panel{
+        padding:38px 28px;
     }
 
-    .login-panel {
-        left: 0;
+    .art{
+        display:none;
     }
 
-    .signup-panel {
-        right: auto;
-        left: 0;
+    .inner{
+        max-width:390px;
     }
 
-    .art {
-        display: none;
-    }
-
-    .signup-panel {
-        opacity: 0;
-
-        transform:
-            translateX(35px)
-            scale(.98);
-
-        pointer-events: none;
-    }
-
-    .auth.register-mode .login-panel {
-        opacity: 0;
-
-        transform:
-            translateX(-35px)
-            scale(.98);
-    }
-
-    .auth.register-mode .signup-panel {
-        opacity: 1;
-
-        transform:
-            translateX(0)
-            scale(1);
-
-        pointer-events: auto;
-    }
-
-    .auth.login-mode .login-panel {
-        opacity: 1;
-
-        transform:
-            translateX(0)
-            scale(1);
-
-        pointer-events: auto;
-    }
-
-    .auth.login-mode .signup-panel {
-        opacity: 0;
-
-        transform:
-            translateX(35px)
-            scale(.98);
-
-        pointer-events: none;
-    }
-
-    .form-inner {
-        max-width: 350px;
-    }
-
-    h1 {
-        font-size: 3.6rem;
+    h1{
+        font-size:40px;
     }
 }
-
 
 /* =========================================================
    SMALL MOBILE
 ========================================================= */
 
-@media (max-width: 400px) {
+@media(max-width:430px){
 
-    html {
-        font-size: 58%;
+    body{
+        padding:15px 10px;
     }
 
-    body {
-        padding: 15px;
+    .scene{
+        height:620px;
     }
 
-    .scene,
-    .auth {
-        height: 650px;
+    .auth{
+        height:620px;
     }
 
-    .form-panel {
-        padding: 25px 20px;
+    .panel{
+        padding:30px 22px;
     }
 
-    h1 {
-        font-size: 3.2rem;
+    h1{
+        font-size:35px;
     }
 
-    .subtitle {
-        margin-bottom: 18px;
+    .brand{
+        margin-bottom:15px;
+    }
+
+    .subtitle{
+        margin-bottom:18px;
+    }
+
+    .field{
+        margin-bottom:12px;
+    }
+
+    .main-button{
+        height:47px;
+    }
+
+    .japanese{
+        font-size:180px;
     }
 }
-
 
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media(prefers-reduced-motion:reduce){
 
     *,
     *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
+<!-- ======================================================
      BACKGROUND
 ====================================================== -->
 
-<div class="background">
+<div class="japanese left">紅</div>
+<div class="japanese right">秋</div>
 
-    <div class="moon"></div>
+<div class="moon"></div>
 
-    <div class="mist"></div>
-
-    <div class="kanji left">紅</div>
-    <div class="kanji right">秋</div>
-
+<div class="stars">
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
 </div>
 
-
-<!-- =====================================================
-     PARTICLES
-====================================================== -->
-
-<div class="particles">
-
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-
+<div class="fireflies">
+    <span class="firefly"></span>
+    <span class="firefly"></span>
+    <span class="firefly"></span>
+    <span class="firefly"></span>
 </div>
-
-
-<!-- =====================================================
-     FALLING LEAVES
-====================================================== -->
 
 <div class="leaves">
-
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-    <div class="leaf"></div>
-
+    <span class="leaf"></span>
+    <span class="leaf"></span>
+    <span class="leaf"></span>
+    <span class="leaf"></span>
+    <span class="leaf"></span>
+    <span class="leaf"></span>
+    <span class="leaf"></span>
+    <span class="leaf"></span>
 </div>
 
 
-<!-- =====================================================
+<!-- ======================================================
      AUTH
 ====================================================== -->
 
 <main class="scene">
 
-<div class="auth login-mode" id="auth">
+<div class="auth" id="auth">
 
 
-<!-- =====================================================
-     LOGIN PANEL
-====================================================== -->
+    <!-- ==================================================
+         FORMS
+    ================================================== -->
 
-<section class="form-panel login-panel">
+    <div class="forms">
 
-<div class="form-inner">
 
-<div class="brand">
+        <!-- ================= LOGIN ================= -->
 
-    <div class="brand-mark">秋</div>
+        <section class="panel login-panel">
 
-    <div class="brand-text">
+            <div class="inner">
 
-        <strong>AKI</strong>
+                <div class="brand">
 
-        <span>
-            Japanese Autumn
-        </span>
+                    <div class="brand-icon">秋</div>
+
+                    <div>
+                        <strong>AKI</strong>
+                        <span>Japanese Autumn</span>
+                    </div>
+
+                </div>
+
+                <div class="jp">
+                    秋の夜
+                </div>
+
+                <h1>
+                    Welcome Back
+                </h1>
+
+                <p class="subtitle">
+                    Return to the quiet glow of autumn.
+                </p>
+
+
+                <form id="loginForm">
+
+                    <div class="field">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="your@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field password">
+
+                        <label>Password</label>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show"
+                            data-target="loginPassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+
+                    <div class="options">
+
+                        <label class="remember">
+
+                            <input type="checkbox">
+
+                            Remember me
+
+                        </label>
+
+                        <a
+                            href="#"
+                            class="forgot"
+                            id="forgot"
+                        >
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="main-button"
+                    >
+                        Enter the Garden
+                    </button>
+
+                </form>
+
+
+                <div class="divider">
+                    ❈
+                </div>
+
+
+                <div class="switch">
+
+                    New here?
+
+                    <button
+                        type="button"
+                        id="goRegister"
+                    >
+                        Create an account
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SIGNUP ================= -->
+
+        <section class="panel signup-panel">
+
+            <div class="inner">
+
+                <div class="brand">
+
+                    <div class="brand-icon">紅</div>
+
+                    <div>
+                        <strong>MOMIJI</strong>
+                        <span>紅葉 · Maple Leaves</span>
+                    </div>
+
+                </div>
+
+                <div class="jp">
+                    紅葉の季節
+                </div>
+
+                <h1>
+                    Begin Anew
+                </h1>
+
+                <p class="subtitle">
+                    Create your account beneath the
+                    autumn moon.
+                </p>
+
+
+                <form id="signupForm">
+
+                    <div class="field">
+
+                        <label>Your name</label>
+
+                        <input
+                            type="text"
+                            id="signupName"
+                            placeholder="Your name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>Email</label>
+
+                        <input
+                            type="email"
+                            id="signupEmail"
+                            placeholder="your@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field password">
+
+                        <label>Password</label>
+
+                        <input
+                            type="password"
+                            id="signupPassword"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show"
+                            data-target="signupPassword"
+                        >
+                            Show
+                        </button>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>Confirm password</label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Repeat password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <label class="remember"
+                    style="margin:3px 0 18px">
+
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            required
+                        >
+
+                        I accept the terms
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="main-button"
+                    >
+                        Plant Your First Seed
+                    </button>
+
+                </form>
+
+
+                <div class="divider">
+                    ❈
+                </div>
+
+
+                <div class="switch">
+
+                    Already a member?
+
+                    <button
+                        type="button"
+                        id="goLogin"
+                    >
+                        Return to login
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </div>
 
-</div>
 
+    <!-- ==================================================
+         ART
+    ================================================== -->
 
-<div class="japanese-title">
-    秋の夜
-</div>
+    <section class="art">
 
+        <div class="art-content">
 
-<h1>
-    Welcome Back
-</h1>
+            <div class="art-season">
+                AUTUMN · 秋
+            </div>
 
+            <h2>
+                月と紅葉
+            </h2>
 
-<p class="subtitle">
-    Return to the quiet glow of autumn.
-</p>
+            <p>
+                Moonlight, maple leaves,
+                and the quiet beauty
+                of another beginning.
+            </p>
 
+            <button
+                class="art-button"
+                id="artButton"
+            >
 
-<form id="loginForm">
+                <span id="artText">
+                    Create Account
+                </span>
 
-<div class="field">
+                <span> → </span>
 
-    <label class="field-label">
-        Email
-    </label>
+            </button>
 
-    <input
-        type="email"
-        id="loginEmail"
-        placeholder="your@email.com"
-        autocomplete="email"
-        required
-    >
+        </div>
 
-    <span class="field-icon">
-        ✉
-    </span>
-
-</div>
-
-
-<div class="field password-field">
-
-    <label class="field-label">
-        Password
-    </label>
-
-    <input
-        type="password"
-        id="loginPassword"
-        placeholder="Enter your password"
-        autocomplete="current-password"
-        minlength="6"
-        required
-    >
-
-    <button
-        type="button"
-        class="show-password"
-        data-target="loginPassword"
-    >
-        Show
-    </button>
+    </section>
 
 </div>
 
-
-<div class="options">
-
-    <label class="remember">
-
-        <input
-            type="checkbox"
-            id="remember"
-        >
-
-        Remember me
-
-    </label>
-
-
-    <a
-        href="#"
-        class="forgot"
-        id="forgot"
-    >
-        Forgot password?
-    </a>
-
-</div>
-
-
-<button
-    type="submit"
-    class="main-button"
->
-    Enter the Garden
-</button>
-
-</form>
-
-
-<div class="ornament">
-    ❈
-</div>
-
-
-<div class="switch">
-
-    New here?
-
-    <button
-        type="button"
-        id="goRegister"
-    >
-        Create an account
-    </button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     SIGNUP PANEL
-====================================================== -->
-
-<section class="form-panel signup-panel">
-
-<div class="form-inner">
-
-<div class="brand">
-
-    <div class="brand-mark">
-        紅
-    </div>
-
-    <div class="brand-text">
-
-        <strong>MOMIJI</strong>
-
-        <span>
-            紅葉 · Maple Leaves
-        </span>
-
-    </div>
-
-</div>
-
-
-<div class="japanese-title">
-    紅葉の季節
-</div>
-
-
-<h1>
-    Begin Anew
-</h1>
-
-
-<p class="subtitle">
-    Create your account beneath the autumn moon.
-</p>
-
-
-<form id="signupForm">
-
-<div class="field">
-
-    <label class="field-label">
-        Your name
-    </label>
-
-    <input
-        type="text"
-        id="signupName"
-        placeholder="Your name"
-        autocomplete="name"
-        required
-    >
-
-    <span class="field-icon">
-        ◇
-    </span>
-
-</div>
-
-
-<div class="field">
-
-    <label class="field-label">
-        Email
-    </label>
-
-    <input
-        type="email"
-        id="signupEmail"
-        placeholder="your@email.com"
-        autocomplete="email"
-        required
-    >
-
-    <span class="field-icon">
-        ✉
-    </span>
-
-</div>
-
-
-<div class="field password-field">
-
-    <label class="field-label">
-        Password
-    </label>
-
-    <input
-        type="password"
-        id="signupPassword"
-        placeholder="Create a password"
-        autocomplete="new-password"
-        minlength="6"
-        required
-    >
-
-    <button
-        type="button"
-        class="show-password"
-        data-target="signupPassword"
-    >
-        Show
-    </button>
-
-</div>
-
-
-<div class="field">
-
-    <label class="field-label">
-        Confirm password
-    </label>
-
-    <input
-        type="password"
-        id="confirmPassword"
-        placeholder="Repeat password"
-        autocomplete="new-password"
-        minlength="6"
-        required
-    >
-
-</div>
-
-
-<label class="remember">
-
-    <input
-        type="checkbox"
-        id="terms"
-        required
-    >
-
-    I accept the terms
-
-</label>
-
-
-<button
-    type="submit"
-    class="main-button"
->
-    Plant Your First Seed
-</button>
-
-</form>
-
-
-<div class="ornament">
-    ❈
-</div>
-
-
-<div class="switch">
-
-    Already a member?
-
-    <button
-        type="button"
-        id="goLogin"
-    >
-        Return to login
-    </button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     ART PANEL
-====================================================== -->
-
-<section class="art">
-
-<div class="art-content">
-
-    <div class="art-season">
-        AUTUMN · 秋
-    </div>
-
-    <h2>
-        月と紅葉
-    </h2>
-
-    <p>
-        Moonlight, maple leaves,
-        and the quiet beauty
-        of another beginning.
-    </p>
-
-    <button
-        class="art-button"
-        id="artButton"
-        type="button"
-    >
-
-        <span id="artButtonText">
-            Create Account
-        </span>
-
-        <span>
-            →
-        </span>
-
-    </button>
-
-</div>
-
-</section>
-
-
-</div>
 </main>
 
 
-<!-- =====================================================
+<!-- ======================================================
      TOAST
 ====================================================== -->
 
 <div
     class="toast"
     id="toast"
-    role="status"
-    aria-live="polite"
 ></div>
 
 
 <script>
+
 /* =========================================================
    ELEMENTS
 ========================================================= */
@@ -2250,8 +1854,8 @@ const goLogin =
 const artButton =
     document.getElementById("artButton");
 
-const artButtonText =
-    document.getElementById("artButtonText");
+const artText =
+    document.getElementById("artText");
 
 const loginForm =
     document.getElementById("loginForm");
@@ -2267,52 +1871,35 @@ const toast =
 
 
 /* =========================================================
-   STATE
+   LOGIN
 ========================================================= */
 
-let currentMode = "login";
-
-
-function showRegister() {
-
-    if (currentMode === "register") {
-        return;
-    }
-
-    currentMode = "register";
-
-    auth.classList.remove("login-mode");
-
-    void auth.offsetWidth;
-
-    auth.classList.add("register-mode");
-
-    artButtonText.textContent =
-        "Return to Login";
-}
-
-
-function showLogin() {
-
-    if (currentMode === "login") {
-        return;
-    }
-
-    currentMode = "login";
+function showLogin(){
 
     auth.classList.remove("register-mode");
 
-    void auth.offsetWidth;
-
-    auth.classList.add("login-mode");
-
-    artButtonText.textContent =
+    artText.textContent =
         "Create Account";
+
 }
 
 
 /* =========================================================
-   SWITCH BUTTONS
+   REGISTER
+========================================================= */
+
+function showRegister(){
+
+    auth.classList.add("register-mode");
+
+    artText.textContent =
+        "Return to Login";
+
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
 ========================================================= */
 
 goRegister.addEventListener(
@@ -2329,10 +1916,18 @@ artButton.addEventListener(
     "click",
     () => {
 
-        if (currentMode === "login") {
-            showRegister();
-        } else {
+        if(
+            auth.classList.contains(
+                "register-mode"
+            )
+        ){
+
             showLogin();
+
+        }else{
+
+            showRegister();
+
         }
 
     }
@@ -2340,50 +1935,48 @@ artButton.addEventListener(
 
 
 /* =========================================================
-   PASSWORD SHOW / HIDE
+   PASSWORD TOGGLE
 ========================================================= */
 
 document
-    .querySelectorAll(".show-password")
-    .forEach(button => {
+.querySelectorAll(".show")
+.forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-                const input =
-                    document.getElementById(
-                        button.dataset.target
-                    );
-
-                const isPassword =
-                    input.type === "password";
-
-                input.type =
-                    isPassword
-                        ? "text"
-                        : "password";
-
-                button.textContent =
-                    isPassword
-                        ? "Hide"
-                        : "Show";
-
-                button.setAttribute(
-                    "aria-label",
-                    isPassword
-                        ? "Hide password"
-                        : "Show password"
+            const input =
+                document.getElementById(
+                    button.dataset.target
                 );
 
-            }
-        );
+            if(
+                input.type === "password"
+            ){
 
-    });
+                input.type = "text";
+
+                button.textContent =
+                    "Hide";
+
+            }else{
+
+                input.type = "password";
+
+                button.textContent =
+                    "Show";
+
+            }
+
+        }
+    );
+
+});
 
 
 /* =========================================================
-   LOGIN
+   LOGIN FORM
 ========================================================= */
 
 loginForm.addEventListener(
@@ -2392,30 +1985,37 @@ loginForm.addEventListener(
 
         event.preventDefault();
 
-        if (!loginForm.checkValidity()) {
-
-            loginForm.reportValidity();
-
-            showToast(
-                "Please complete the form correctly."
-            );
-
-            return;
-        }
+        const email =
+            document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
         const password =
             document
-                .getElementById("loginPassword")
-                .value;
+            .getElementById("loginPassword")
+            .value;
 
-        if (password.length < 6) {
+
+        if(!email || !password){
 
             showToast(
-                "Password must be at least 6 characters."
+                "Please complete all fields."
             );
 
             return;
         }
+
+
+        if(password.length < 6){
+
+            showToast(
+                "Password must contain at least 6 characters."
+            );
+
+            return;
+        }
+
 
         showToast(
             "ようこそ — Welcome back."
@@ -2426,7 +2026,7 @@ loginForm.addEventListener(
 
 
 /* =========================================================
-   SIGNUP
+   SIGNUP FORM
 ========================================================= */
 
 signupForm.addEventListener(
@@ -2435,37 +2035,60 @@ signupForm.addEventListener(
 
         event.preventDefault();
 
-        if (!signupForm.checkValidity()) {
+        const name =
+            document
+            .getElementById("signupName")
+            .value
+            .trim();
 
-            signupForm.reportValidity();
-
-            showToast(
-                "Please complete the form correctly."
-            );
-
-            return;
-        }
+        const email =
+            document
+            .getElementById("signupEmail")
+            .value
+            .trim();
 
         const password =
             document
-                .getElementById("signupPassword")
-                .value;
+            .getElementById("signupPassword")
+            .value;
 
         const confirm =
             document
-                .getElementById("confirmPassword")
-                .value;
+            .getElementById("confirmPassword")
+            .value;
 
-        if (password.length < 6) {
+        const terms =
+            document
+            .getElementById("terms")
+            .checked;
+
+
+        if(
+            !name ||
+            !email ||
+            !password ||
+            !confirm
+        ){
 
             showToast(
-                "Password needs at least 6 characters."
+                "Please complete all fields."
             );
 
             return;
         }
 
-        if (password !== confirm) {
+
+        if(password.length < 6){
+
+            showToast(
+                "Password must contain at least 6 characters."
+            );
+
+            return;
+        }
+
+
+        if(password !== confirm){
 
             showToast(
                 "Passwords do not match."
@@ -2473,6 +2096,17 @@ signupForm.addEventListener(
 
             return;
         }
+
+
+        if(!terms){
+
+            showToast(
+                "Please accept the terms."
+            );
+
+            return;
+        }
+
 
         showToast(
             "おめでとう — Your journey begins."
@@ -2494,22 +2128,20 @@ forgot.addEventListener(
 
         const email =
             document
-                .getElementById("loginEmail")
-                .value
-                .trim();
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
-        if (!email) {
+
+        if(!email){
 
             showToast(
                 "Enter your email first."
             );
 
-            document
-                .getElementById("loginEmail")
-                .focus();
-
             return;
         }
+
 
         showToast(
             "A password reset link would be sent here."
@@ -2525,13 +2157,15 @@ forgot.addEventListener(
 
 let toastTimer;
 
-function showToast(message) {
+function showToast(message){
 
     clearTimeout(toastTimer);
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
 
     toast.classList.add("show");
+
 
     toastTimer =
         setTimeout(
@@ -2546,68 +2180,6 @@ function showToast(message) {
         );
 }
 
-
-/* =========================================================
-   MOUSE PARALLAX
-========================================================= */
-
-const scene =
-    document.querySelector(".scene");
-
-const background =
-    document.querySelector(".background");
-
-if (
-    window.matchMedia("(pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-) {
-
-    window.addEventListener(
-        "mousemove",
-        event => {
-
-            const x =
-                (event.clientX / window.innerWidth - .5);
-
-            const y =
-                (event.clientY / window.innerHeight - .5);
-
-            scene.style.transform =
-                `
-                translate(
-                    ${x * 7}px,
-                    ${y * 7}px
-                )
-                `;
-
-            background.style.transform =
-                `
-                translate(
-                    ${x * -10}px,
-                    ${y * -10}px
-                )
-                `;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   KEYBOARD ESC
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (event.key === "Escape") {
-            showLogin();
-        }
-
-    }
-);
 </script>
 
 </body>
