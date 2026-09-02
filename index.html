@@ -1,1496 +1,1797 @@
+html
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-```
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<title>秋 — Animated Japanese Autumn Auth</title>
 
-<title>秋 — Autumn Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
->
-
-<link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
->
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap"
-    rel="stylesheet"
->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 
 <style>
+/* =========================================================
+   RESET
+========================================================= */
 
-    /* =====================================================
-       RESET
-    ===================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+:root {
+    --night: #07080e;
+    --night-2: #12101a;
+
+    --wine: #701923;
+    --wine-2: #a82e37;
+
+    --maple: #c4492d;
+    --orange: #e87532;
+
+    --gold: #d9a441;
+    --gold-light: #f6d47b;
+
+    --cream: #f6e9cd;
+
+    --glass: rgba(255, 245, 220, .075);
+    --glass-dark: rgba(0, 0, 0, .25);
+
+    --border: rgba(242, 202, 114, .22);
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--cream);
+
+    font-family:
+        "Noto Serif JP",
+        serif;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(196, 73, 45, .20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(217, 164, 65, .13),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #05060a,
+            #15111b 50%,
+            #08090f
+        );
+}
+
+
+/* =========================================================
+   AMBIENT BACKGROUND
+========================================================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.background::before {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(196, 73, 45, .08),
+            transparent 35%
+        );
+    animation: ambient 12s ease-in-out infinite alternate;
+}
+
+@keyframes ambient {
+    from {
+        transform: scale(.9) rotate(0deg);
+        opacity: .55;
     }
 
+    to {
+        transform: scale(1.2) rotate(20deg);
+        opacity: 1;
+    }
+}
 
-    :root {
 
-        --night: #090b12;
-        --night-2: #11131b;
+/* =========================================================
+   MOON
+========================================================= */
 
-        --wine: #6f1822;
-        --wine-light: #a92e36;
+.moon {
+    position: absolute;
 
-        --maple: #c4492d;
-        --orange: #e87532;
+    width: 175px;
+    height: 175px;
 
-        --gold: #d9a441;
-        --gold-light: #f2ca72;
+    top: 8%;
+    right: 9%;
 
-        --cream: #f4e6c8;
+    border-radius: 50%;
 
-        --glass:
-            rgba(255, 244, 218, .07);
+    background:
+        radial-gradient(
+            circle at 35% 35%,
+            #fff9e4,
+            #e8c978 55%,
+            #a66d29
+        );
 
-        --border:
-            rgba(242, 202, 114, .22);
+    box-shadow:
+        0 0 35px rgba(242, 202, 114, .3),
+        0 0 90px rgba(242, 202, 114, .12);
+
+    animation:
+        moonGlow 5s ease-in-out infinite alternate;
+}
+
+.moon::before {
+    content: "";
+
+    position: absolute;
+    inset: -20px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(242, 202, 114, .12);
+
+    animation:
+        moonRing 8s linear infinite;
+}
+
+.moon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    top: -8px;
+    left: 27px;
+
+    border-radius: 50%;
+
+    background: #0a0b12;
+}
+
+@keyframes moonGlow {
+    from {
+        transform: scale(.96);
+        box-shadow:
+            0 0 30px rgba(242, 202, 114, .25),
+            0 0 70px rgba(242, 202, 114, .08);
     }
 
+    to {
+        transform: scale(1.04);
+        box-shadow:
+            0 0 55px rgba(242, 202, 114, .4),
+            0 0 120px rgba(242, 202, 114, .15);
+    }
+}
 
-    html {
-        font-size: 62.5%;
+@keyframes moonRing {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   MIST
+========================================================= */
+
+.mist {
+    position: absolute;
+
+    width: 75vw;
+    height: 180px;
+
+    left: -15%;
+    bottom: 4%;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 220, 170, .035);
+
+    filter: blur(35px);
+
+    transform: rotate(-8deg);
+
+    animation:
+        mistMove 10s ease-in-out infinite alternate;
+}
+
+@keyframes mistMove {
+    from {
+        transform: translateX(-5%) rotate(-8deg);
     }
 
+    to {
+        transform: translateX(20%) rotate(-5deg);
+    }
+}
+
+
+/* =========================================================
+   KANJI
+========================================================= */
+
+.kanji {
+    position: fixed;
+
+    z-index: 0;
+
+    color:
+        rgba(242, 202, 114, .035);
+
+    font-size: 28rem;
+    font-weight: 900;
+
+    line-height: 1;
+
+    user-select: none;
+    pointer-events: none;
+
+    animation:
+        kanjiFloat 8s ease-in-out infinite alternate;
+}
+
+.kanji.left {
+    left: -70px;
+    bottom: -60px;
+}
+
+.kanji.right {
+    right: -50px;
+    top: 0;
+
+    font-size: 22rem;
+
+    animation-delay: -3s;
+}
+
+@keyframes kanjiFloat {
+    from {
+        transform: translateY(0) rotate(-3deg);
+    }
+
+    to {
+        transform: translateY(-25px) rotate(3deg);
+    }
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particles {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: var(--gold-light);
+
+    box-shadow:
+        0 0 8px var(--gold-light);
+
+    opacity: .35;
+
+    animation:
+        particleFloat var(--time) ease-in-out infinite alternate;
+}
+
+.particle:nth-child(1) {
+    left: 10%;
+    top: 30%;
+    --time: 6s;
+}
+
+.particle:nth-child(2) {
+    left: 25%;
+    top: 70%;
+    --time: 8s;
+}
+
+.particle:nth-child(3) {
+    left: 42%;
+    top: 15%;
+    --time: 5s;
+}
+
+.particle:nth-child(4) {
+    left: 68%;
+    top: 30%;
+    --time: 7s;
+}
+
+.particle:nth-child(5) {
+    left: 82%;
+    top: 65%;
+    --time: 9s;
+}
+
+.particle:nth-child(6) {
+    left: 55%;
+    top: 85%;
+    --time: 6s;
+}
+
+@keyframes particleFloat {
+    from {
+        transform:
+            translate(0, 0)
+            scale(.6);
+        opacity: .15;
+    }
+
+    to {
+        transform:
+            translate(30px, -45px)
+            scale(1.4);
+        opacity: .7;
+    }
+}
+
+
+/* =========================================================
+   FALLING LEAVES
+========================================================= */
+
+.leaves {
+    position: fixed;
+    inset: 0;
+
+    z-index: 2;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+.leaf {
+    position: absolute;
+
+    top: -70px;
+
+    width: 22px;
+    height: 22px;
+
+    background: var(--leaf-color);
+
+    clip-path:
+        polygon(
+            50% 0%,
+            63% 28%,
+            100% 18%,
+            76% 50%,
+            95% 85%,
+            57% 67%,
+            50% 100%,
+            43% 67%,
+            5% 85%,
+            24% 50%,
+            0% 18%,
+            37% 28%
+        );
+
+    filter:
+        drop-shadow(
+            0 4px 6px rgba(0,0,0,.4)
+        );
+
+    opacity: .8;
+
+    animation:
+        leafFall var(--fall)
+        linear infinite;
+
+    animation-delay: var(--delay);
+}
+
+.leaf:nth-child(1) {
+    left: 4%;
+    --leaf-color: #a92e36;
+    --fall: 12s;
+    --delay: -2s;
+}
+
+.leaf:nth-child(2) {
+    left: 16%;
+    --leaf-color: #d97a32;
+    --fall: 15s;
+    --delay: -8s;
+}
+
+.leaf:nth-child(3) {
+    left: 29%;
+    --leaf-color: #d9a441;
+    --fall: 11s;
+    --delay: -4s;
+}
+
+.leaf:nth-child(4) {
+    left: 43%;
+    --leaf-color: #8e292b;
+    --fall: 16s;
+    --delay: -12s;
+}
+
+.leaf:nth-child(5) {
+    left: 58%;
+    --leaf-color: #e87532;
+    --fall: 13s;
+    --delay: -5s;
+}
+
+.leaf:nth-child(6) {
+    left: 73%;
+    --leaf-color: #c4492d;
+    --fall: 17s;
+    --delay: -10s;
+}
+
+.leaf:nth-child(7) {
+    left: 88%;
+    --leaf-color: #d9a441;
+    --fall: 12s;
+    --delay: -7s;
+}
+
+.leaf:nth-child(8) {
+    left: 96%;
+    --leaf-color: #a92e36;
+    --fall: 14s;
+    --delay: -3s;
+}
+
+@keyframes leafFall {
+    0% {
+        transform:
+            translate3d(0, -80px, 0)
+            rotate(0deg);
+    }
+
+    25% {
+        transform:
+            translate3d(90px, 25vh, 0)
+            rotate(100deg);
+    }
+
+    50% {
+        transform:
+            translate3d(-70px, 55vh, 0)
+            rotate(220deg);
+    }
+
+    75% {
+        transform:
+            translate3d(110px, 80vh, 0)
+            rotate(290deg);
+    }
+
+    100% {
+        transform:
+            translate3d(-50px, 115vh, 0)
+            rotate(420deg);
+    }
+}
+
+
+/* =========================================================
+   AUTH SCENE
+========================================================= */
+
+.scene {
+    position: relative;
+
+    z-index: 10;
+
+    width: min(92vw, 920px);
+
+    height: 570px;
+
+    perspective: 1800px;
+}
+
+.auth {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    transform-style: preserve-3d;
+
+    animation:
+        sceneIn 1s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+}
+
+@keyframes sceneIn {
+    from {
+        opacity: 0;
+        transform:
+            translateY(40px)
+            scale(.94)
+            rotateX(8deg);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1)
+            rotateX(0);
+    }
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.form-panel {
+    position: absolute;
+
+    top: 0;
+
+    width: 50%;
+    height: 100%;
+
+    padding: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.025)
+        );
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 25px 80px rgba(0,0,0,.3);
+
+    transition:
+        opacity .55s ease,
+        transform .65s cubic-bezier(.2,.8,.2,1);
+}
+
+.form-panel::before {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -90px;
+    right: -90px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(217,164,65,.08);
+
+    filter: blur(30px);
+
+    animation:
+        panelGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes panelGlow {
+    from {
+        transform: scale(.8);
+        opacity: .3;
+    }
+
+    to {
+        transform: scale(1.3);
+        opacity: .8;
+    }
+}
+
+.login-panel {
+    left: 0;
+
+    border-radius:
+        28px 0 0 28px;
+}
+
+.signup-panel {
+    right: 0;
+
+    border-radius:
+        0 28px 28px 0;
+}
+
+
+/* =========================================================
+   FORM INNER
+========================================================= */
+
+.form-inner {
+    width: 100%;
+    max-width: 330px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+
+    animation:
+        contentUp .8s .2s both;
+}
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: #160b08;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--orange)
+        );
+
+    box-shadow:
+        0 0 20px rgba(217,164,65,.22);
+
+    font-size: 2rem;
+
+    animation:
+        markPulse 4s ease-in-out infinite;
+}
+
+@keyframes markPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 20px rgba(217,164,65,.2);
+    }
+
+    50% {
+        box-shadow:
+            0 0 35px rgba(217,164,65,.45);
+    }
+}
+
+.brand-text strong {
+    display: block;
+
+    color: var(--gold-light);
+
+    font-size: 1.5rem;
+
+    letter-spacing: 2px;
+}
+
+.brand-text span {
+    color:
+        rgba(244,230,200,.4);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 1.2rem;
+}
+
+
+/* =========================================================
+   TITLES
+========================================================= */
+
+.japanese-title {
+    color: var(--gold);
+
+    font-size: 1.15rem;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 8px;
+
+    animation:
+        contentUp .8s .3s both;
+}
+
+h1 {
+    margin-bottom: 5px;
+
+    color: var(--cream);
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 4rem;
+
+    font-weight: 600;
+
+    animation:
+        contentUp .8s .4s both;
+}
+
+.subtitle {
+    margin-bottom: 22px;
+
+    color:
+        rgba(244,230,200,.48);
+
+    font-size: 1.15rem;
+
+    line-height: 1.7;
+
+    animation:
+        contentUp .8s .5s both;
+}
+
+@keyframes contentUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   FIELDS
+========================================================= */
+
+.field {
+    position: relative;
+
+    margin-bottom: 14px;
+
+    animation:
+        contentUp .7s both;
+}
+
+.field:nth-child(1) {
+    animation-delay: .55s;
+}
+
+.field:nth-child(2) {
+    animation-delay: .65s;
+}
+
+.field:nth-child(3) {
+    animation-delay: .75s;
+}
+
+.field:nth-child(4) {
+    animation-delay: .85s;
+}
+
+.field-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color:
+        rgba(244,230,200,.65);
+
+    font-size: 1rem;
+}
+
+.field input {
+    width: 100%;
+
+    padding: 13px 45px 13px 15px;
+
+    outline: none;
+
+    border:
+        1px solid
+        rgba(244,230,200,.14);
+
+    border-radius: 10px;
+
+    color: var(--cream);
+
+    background:
+        rgba(0,0,0,.23);
+
+    font-family: inherit;
+
+    font-size: 1.2rem;
+
+    transition:
+        border .3s,
+        box-shadow .3s,
+        transform .3s,
+        background .3s;
+}
+
+.field input:hover {
+    border-color:
+        rgba(242,202,114,.35);
+}
+
+.field input:focus {
+    border-color:
+        rgba(242,202,114,.75);
+
+    background:
+        rgba(0,0,0,.34);
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(217,164,65,.06),
+
+        0 0 25px
+        rgba(217,164,65,.13);
+}
+
+.field input::placeholder {
+    color:
+        rgba(244,230,200,.25);
+}
+
+.field-icon {
+    position: absolute;
+
+    right: 15px;
+    bottom: 13px;
+
+    color:
+        rgba(242,202,114,.55);
+
+    font-size: 1.4rem;
+
+    pointer-events: none;
+
+    transition:
+        transform .3s,
+        color .3s;
+}
+
+.field:focus-within .field-icon {
+    color: var(--gold-light);
+
+    transform:
+        scale(1.15)
+        rotate(5deg);
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-field input:focus {
+    border-color:
+        var(--maple);
+
+    box-shadow:
+        0 0 0 2px
+        rgba(196,73,45,.08),
+
+        0 0 12px
+        rgba(196,73,45,.35),
+
+        0 0 30px
+        rgba(217,164,65,.12);
+}
+
+.password-field::after {
+    content: "秘密の鍵";
+
+    position: absolute;
+
+    right: 10px;
+    top: -7px;
+
+    padding: 0 5px;
+
+    color:
+        rgba(217,164,65,.4);
+
+    background:
+        #101017;
+
+    font-size: .72rem;
+
+    letter-spacing: 1px;
+}
+
+.show-password {
+    position: absolute;
+
+    right: 13px;
+    bottom: 12px;
+
+    z-index: 2;
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        rgba(244,230,200,.45);
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: .9rem;
+
+    transition:
+        color .25s,
+        transform .25s;
+}
+
+.show-password:hover {
+    color: var(--gold-light);
+
+    transform: scale(1.05);
+}
+
+.password-field .field-icon {
+    display: none;
+}
+
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.options {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 4px 0 18px;
+
+    font-size: .95rem;
+}
+
+.remember {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color:
+        rgba(244,230,200,.45);
+
+    cursor: pointer;
+
+    font-size: .95rem;
+}
+
+.remember input {
+    accent-color: var(--maple);
+
+    cursor: pointer;
+}
+
+.forgot {
+    color: var(--gold);
+
+    text-decoration: none;
+
+    transition:
+        color .25s,
+        text-shadow .25s;
+}
+
+.forgot:hover {
+    color: var(--gold-light);
+
+    text-shadow:
+        0 0 12px rgba(242,202,114,.45);
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.main-button {
+    position: relative;
+
+    width: 100%;
+
+    padding: 14px;
+
+    overflow: hidden;
+
+    border: none;
+
+    border-radius: 10px;
+
+    color: #170c08;
+
+    background:
+        linear-gradient(
+            110deg,
+            var(--gold-light),
+            var(--orange),
+            var(--maple)
+        );
+
+    background-size: 200% 100%;
+
+    font-family: inherit;
+
+    font-size: 1.15rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px rgba(196,73,45,.2);
+
+    transition:
+        .35s;
+}
+
+.main-button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.5),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition:
+        left .7s ease;
+}
+
+.main-button:hover {
+    background-position: 100% 0;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 38px rgba(196,73,45,.38);
+}
+
+.main-button:hover::before {
+    left: 140%;
+}
+
+.main-button:active {
+    transform:
+        translateY(0)
+        scale(.98);
+}
+
+
+/* =========================================================
+   ORNAMENT
+========================================================= */
+
+.ornament {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 18px 0;
+
+    color:
+        rgba(217,164,65,.4);
+
+    font-size: 1rem;
+
+    animation:
+        ornamentGlow 3s ease-in-out infinite alternate;
+}
+
+.ornament::before,
+.ornament::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(217,164,65,.25)
+        );
+}
+
+.ornament::after {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(217,164,65,.25),
+            transparent
+        );
+}
+
+@keyframes ornamentGlow {
+    from {
+        opacity: .45;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switch {
+    text-align: center;
+
+    color:
+        rgba(244,230,200,.42);
+
+    font-size: 1rem;
+}
+
+.switch button {
+    border: none;
+
+    background: none;
+
+    color:
+        var(--gold-light);
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-weight: 700;
+
+    transition:
+        color .25s,
+        text-shadow .25s;
+}
+
+.switch button:hover {
+    color: white;
+
+    text-shadow:
+        0 0 15px
+        rgba(242,202,114,.5);
+}
+
+
+/* =========================================================
+   DESKTOP STATE
+========================================================= */
+
+/* Login visible */
+.login-panel {
+    opacity: 1;
+
+    transform:
+        translateX(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+/* Signup hidden */
+.signup-panel {
+    opacity: 0;
+
+    transform:
+        translateX(35px)
+        scale(.98);
+
+    pointer-events: none;
+}
+
+/* Art */
+.art {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 50%;
+    height: 100%;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    border-radius:
+        0 28px 28px 0;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(111,24,34,.94),
+            rgba(196,73,45,.72)
+        );
+
+    border:
+        1px solid
+        rgba(242,202,114,.25);
+
+    z-index: 20;
+
+    transform-origin:
+        left center;
+
+    backface-visibility: hidden;
+
+    box-shadow:
+        15px 0 70px
+        rgba(0,0,0,.25);
+
+    transition:
+        transform .8s
+        cubic-bezier(.65,.05,.36,1);
+}
+
+.art::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(242,202,114,.25);
+
+    box-shadow:
+        0 0 0 30px rgba(242,202,114,.025),
+        0 0 0 70px rgba(242,202,114,.02),
+        0 0 80px rgba(0,0,0,.25);
+
+    animation:
+        artRing 8s linear infinite;
+}
+
+.art::after {
+    content: "秋";
+
+    position: absolute;
+
+    font-size: 25rem;
+
+    color:
+        rgba(255,244,218,.045);
+
+    font-weight: 900;
+
+    animation:
+        artKanji 6s ease-in-out infinite alternate;
+}
+
+@keyframes artRing {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes artKanji {
+    from {
+        transform:
+            scale(.96)
+            rotate(-3deg);
+    }
+
+    to {
+        transform:
+            scale(1.04)
+            rotate(3deg);
+    }
+}
+
+.art-content {
+    position: relative;
+
+    z-index: 3;
+
+    width: 75%;
+
+    animation:
+        artContent 1s .4s both;
+}
+
+@keyframes artContent {
+    from {
+        opacity: 0;
+        transform:
+            translateX(25px)
+            scale(.95);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+.art-season {
+    margin-bottom: 15px;
+
+    color:
+        var(--gold-light);
+
+    font-size: 1.1rem;
+
+    letter-spacing: 7px;
+}
+
+.art h2 {
+    margin-bottom: 15px;
+
+    color: white;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 4.5rem;
+
+    font-weight: 600;
+}
+
+.art p {
+    margin-bottom: 25px;
+
+    color:
+        rgba(255,255,255,.72);
+
+    font-size: 1.15rem;
+
+    line-height: 1.8;
+}
+
+.art-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 25px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.5);
+
+    border-radius: 30px;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.06);
+
+    backdrop-filter: blur(8px);
+
+    font-family: inherit;
+
+    font-size: 1.05rem;
+
+    cursor: pointer;
+
+    transition:
+        .35s;
+}
+
+.art-button span:last-child {
+    transition:
+        transform .35s;
+}
+
+.art-button:hover {
+    color: #58151d;
+
+    background:
+        var(--gold-light);
+
+    border-color:
+        var(--gold-light);
+
+    box-shadow:
+        0 0 30px
+        rgba(242,202,114,.35);
+
+    transform:
+        translateY(-3px);
+}
+
+.art-button:hover span:last-child {
+    transform:
+        translateX(5px);
+}
+
+
+/* =========================================================
+   REGISTER STATE
+========================================================= */
+
+.auth.register-mode .login-panel {
+    opacity: 0;
+
+    transform:
+        translateX(-35px)
+        scale(.98);
+
+    pointer-events: none;
+}
+
+.auth.register-mode .signup-panel {
+    opacity: 1;
+
+    transform:
+        translateX(0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+.auth.register-mode .art {
+    transform:
+        translateX(-100%)
+        rotateY(-180deg);
+}
+
+
+/* =========================================================
+   LOGIN STATE
+========================================================= */
+
+.auth.login-mode .art {
+    transform:
+        translateX(0)
+        rotateY(0deg);
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    z-index: 100;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform:
+        translate(-50%, 100px)
+        scale(.9);
+
+    min-width: 260px;
+
+    padding: 13px 22px;
+
+    border:
+        1px solid
+        rgba(242,202,114,.25);
+
+    border-radius: 10px;
+
+    color: var(--cream);
+
+    background:
+        rgba(17,16,24,.92);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 10px 40px rgba(0,0,0,.4),
+        0 0 25px rgba(217,164,65,.08);
+
+    text-align: center;
+
+    font-size: 1.05rem;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        .45s cubic-bezier(.2,.8,.2,1);
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0)
+        scale(1);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
 
     body {
+        overflow-y: auto;
 
-        min-height: 100vh;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        overflow: hidden;
-
-        color: var(--cream);
-
-        font-family:
-            "Noto Serif JP",
-            serif;
-
-        background:
-
-            radial-gradient(
-                circle at 15% 15%,
-                rgba(196, 73, 45, .25),
-                transparent 28%
-            ),
-
-            radial-gradient(
-                circle at 85% 80%,
-                rgba(217, 164, 65, .18),
-                transparent 30%
-            ),
-
-            linear-gradient(
-                135deg,
-                #06070c,
-                #121019 50%,
-                #090a10
-            );
+        padding: 25px 15px;
     }
-
-
-    /* =====================================================
-       BACKGROUND
-    ===================================================== */
-
-    .background {
-
-        position: fixed;
-
-        inset: 0;
-
-        overflow: hidden;
-
-        pointer-events: none;
-    }
-
 
     .moon {
+        width: 100px;
+        height: 100px;
 
-        position: absolute;
-
-        width: 170px;
-        height: 170px;
-
-        right: 9%;
-        top: 9%;
-
-        border-radius: 50%;
-
-        background:
-
-            radial-gradient(
-                circle at 35% 35%,
-                #fff6d9,
-                #e8c979 55%,
-                #ad762d
-            );
-
-        box-shadow:
-
-            0 0 40px
-            rgba(242, 202, 114, .25),
-
-            0 0 100px
-            rgba(242, 202, 114, .08);
+        top: 4%;
+        right: 4%;
     }
-
 
     .moon::after {
+        width: 85px;
+        height: 85px;
 
-        content: "";
-
-        position: absolute;
-
-        width: 145px;
-        height: 145px;
-
-        top: -8px;
-        left: 25px;
-
-        border-radius: 50%;
-
-        background: #0b0c13;
+        left: 20px;
     }
-
-
-    .mist {
-
-        position: absolute;
-
-        width: 70vw;
-        height: 180px;
-
-        left: -10%;
-
-        bottom: 5%;
-
-        border-radius: 50%;
-
-        background:
-            rgba(255, 220, 170, .025);
-
-        filter: blur(30px);
-
-        transform: rotate(-8deg);
-    }
-
-
-    /* =====================================================
-       JAPANESE DECORATION
-    ===================================================== */
 
     .kanji {
-
-        position: fixed;
-
-        color:
-            rgba(242, 202, 114, .035);
-
-        font-size: 28rem;
-
-        font-weight: 900;
-
-        line-height: 1;
-
-        user-select: none;
-
-        pointer-events: none;
+        font-size: 16rem;
     }
-
-
-    .kanji.left {
-
-        left: -70px;
-        bottom: -60px;
-    }
-
-
-    .kanji.right {
-
-        right: -50px;
-        top: 0;
-
-        font-size: 22rem;
-    }
-
-
-    /* =====================================================
-       FALLING LEAVES
-    ===================================================== */
-
-    .leaves {
-
-        position: fixed;
-
-        inset: 0;
-
-        pointer-events: none;
-
-        overflow: hidden;
-    }
-
-
-    .leaf {
-
-        position: absolute;
-
-        top: -60px;
-
-        width: 22px;
-        height: 22px;
-
-        background: var(--leaf-color);
-
-        clip-path:
-            polygon(
-                50% 0%,
-                62% 30%,
-                100% 20%,
-                76% 52%,
-                94% 85%,
-                56% 67%,
-                50% 100%,
-                42% 67%,
-                6% 85%,
-                24% 52%,
-                0% 20%,
-                38% 30%
-            );
-
-        opacity: .8;
-
-        filter:
-            drop-shadow(
-                0 3px 4px rgba(0,0,0,.35)
-            );
-
-        animation:
-            fall var(--fall-time)
-            linear infinite;
-
-        animation-delay: var(--delay);
-    }
-
-
-    .leaf:nth-child(1) {
-        left: 7%;
-        --leaf-color: #a92e36;
-        --fall-time: 12s;
-        --delay: -3s;
-    }
-
-    .leaf:nth-child(2) {
-        left: 18%;
-        --leaf-color: #d97a32;
-        --fall-time: 15s;
-        --delay: -9s;
-    }
-
-    .leaf:nth-child(3) {
-        left: 31%;
-        --leaf-color: #d9a441;
-        --fall-time: 11s;
-        --delay: -2s;
-    }
-
-    .leaf:nth-child(4) {
-        left: 47%;
-        --leaf-color: #8e292b;
-        --fall-time: 17s;
-        --delay: -12s;
-    }
-
-    .leaf:nth-child(5) {
-        left: 61%;
-        --leaf-color: #e87532;
-        --fall-time: 13s;
-        --delay: -6s;
-    }
-
-    .leaf:nth-child(6) {
-        left: 76%;
-        --leaf-color: #c4492d;
-        --fall-time: 16s;
-        --delay: -10s;
-    }
-
-    .leaf:nth-child(7) {
-        left: 91%;
-        --leaf-color: #d9a441;
-        --fall-time: 12s;
-        --delay: -4s;
-    }
-
-
-    @keyframes fall {
-
-        0% {
-            transform:
-                translate3d(0, -80px, 0)
-                rotate(0deg);
-        }
-
-        25% {
-            margin-left: 80px;
-        }
-
-        50% {
-            transform:
-                translate3d(-60px, 50vh, 0)
-                rotate(180deg);
-        }
-
-        75% {
-            margin-left: 100px;
-        }
-
-        100% {
-            transform:
-                translate3d(-40px, 110vh, 0)
-                rotate(360deg);
-        }
-    }
-
-
-    /* =====================================================
-       AUTH SCENE
-    ===================================================== */
 
     .scene {
+        width: 100%;
+        max-width: 430px;
 
-        position: relative;
+        height: 680px;
 
-        z-index: 10;
-
-        width: min(92vw, 920px);
-
-        height: 570px;
-
-        perspective: 1800px;
+        perspective: none;
     }
-
 
     .auth {
+        height: 680px;
 
-        position: relative;
-
-        width: 100%;
-        height: 100%;
-
-        transform-style: preserve-3d;
+        transform-style: flat;
     }
-
-
-    /* =====================================================
-       FORMS
-    ===================================================== */
 
     .form-panel {
-
-        position: absolute;
-
-        top: 0;
-
-        width: 50%;
+        width: 100%;
         height: 100%;
 
-        padding: 45px;
+        padding: 30px 25px;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background:
-            linear-gradient(
-                145deg,
-                rgba(255,255,255,.08),
-                rgba(255,255,255,.025)
-            );
-
-        border:
-            1px solid var(--border);
-
-        backdrop-filter: blur(25px);
-
-        -webkit-backdrop-filter: blur(25px);
-
-        box-shadow:
-            inset 0 1px 0
-            rgba(255,255,255,.08);
-    }
-
-
-    .login-panel {
-
-        left: 0;
-
-        border-radius:
-            28px 0 0 28px;
-    }
-
-
-    .signup-panel {
-
-        right: 0;
-
-        border-radius:
-            0 28px 28px 0;
-    }
-
-
-    .form-inner {
-
-        width: 100%;
-
-        max-width: 330px;
-    }
-
-
-    /* =====================================================
-       BRAND
-    ===================================================== */
-
-    .brand {
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 12px;
-
-        margin-bottom: 22px;
-    }
-
-
-    .brand-mark {
-
-        width: 46px;
-        height: 46px;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 50%;
-
-        color: #160b08;
-
-        background:
-            linear-gradient(
-                135deg,
-                var(--gold-light),
-                var(--orange)
-            );
-
-        box-shadow:
-            0 0 25px
-            rgba(217,164,65,.22);
-
-        font-size: 2rem;
-    }
-
-
-    .brand-text strong {
-
-        display: block;
-
-        color: var(--gold-light);
-
-        font-size: 1.5rem;
-
-        letter-spacing: 2px;
-    }
-
-
-    .brand-text span {
-
-        color:
-            rgba(244,230,200,.4);
-
-        font-family:
-            "Cormorant Garamond",
-            serif;
-
-        font-size: 1.2rem;
-    }
-
-
-    /* =====================================================
-       TITLES
-    ===================================================== */
-
-    h1 {
-
-        margin-bottom: 6px;
-
-        color: var(--cream);
-
-        font-family:
-            "Cormorant Garamond",
-            serif;
-
-        font-size: 4rem;
-
-        font-weight: 600;
-    }
-
-
-    .japanese-title {
-
-        color:
-            var(--gold);
-
-        font-size: 1.15rem;
-
-        letter-spacing: 5px;
-
-        margin-bottom: 12px;
-    }
-
-
-    .subtitle {
-
-        margin-bottom: 25px;
-
-        color:
-            rgba(244,230,200,.48);
-
-        font-size: 1.15rem;
-
-        line-height: 1.7;
-    }
-
-
-    /* =====================================================
-       INPUTS
-    ===================================================== */
-
-    .field {
-
-        position: relative;
-
-        margin-bottom: 15px;
-    }
-
-
-    .field-label {
-
-        display: block;
-
-        margin-bottom: 7px;
-
-        color:
-            rgba(244,230,200,.65);
-
-        font-size: 1rem;
-    }
-
-
-    .field input {
-
-        width: 100%;
-
-        padding: 14px 45px 14px 15px;
-
-        outline: none;
-
-        border:
-            1px solid
-            rgba(244,230,200,.14);
-
-        border-radius: 10px;
-
-        color: var(--cream);
-
-        background:
-            rgba(0,0,0,.23);
-
-        font-family: inherit;
-
-        font-size: 1.2rem;
+        border-radius: 25px;
 
         transition:
-            border .3s,
-            box-shadow .3s,
-            background .3s;
+            opacity .45s ease,
+            transform .45s ease;
     }
 
-
-    .field input::placeholder {
-
-        color:
-            rgba(244,230,200,.25);
+    .login-panel {
+        left: 0;
     }
 
-
-    .field input:focus {
-
-        border-color:
-            rgba(242,202,114,.7);
-
-        background:
-            rgba(0,0,0,.32);
-
-        box-shadow:
-            0 0 0 3px
-            rgba(217,164,65,.06),
-
-            0 0 25px
-            rgba(217,164,65,.12);
+    .signup-panel {
+        right: auto;
+        left: 0;
     }
 
-
-    .field-icon {
-
-        position: absolute;
-
-        right: 15px;
-
-        bottom: 14px;
-
-        color:
-            rgba(242,202,114,.55);
-
-        font-size: 1.4rem;
-    }
-
-
-    /* =====================================================
-       PASSWORD GLOW
-    ===================================================== */
-
-    .password-field input:focus {
-
-        border-color:
-            var(--maple);
-
-        box-shadow:
-
-            0 0 0 2px
-            rgba(196,73,45,.08),
-
-            0 0 12px
-            rgba(196,73,45,.35),
-
-            0 0 30px
-            rgba(217,164,65,.12);
-    }
-
-
-    .password-field::after {
-
-        content: "秘密の鍵";
-
-        position: absolute;
-
-        right: 12px;
-
-        top: -7px;
-
-        padding: 0 5px;
-
-        color:
-            rgba(217,164,65,.4);
-
-        background: #101017;
-
-        font-size: .75rem;
-
-        letter-spacing: 1px;
-    }
-
-
-    .show-password {
-
-        position: absolute;
-
-        right: 14px;
-
-        bottom: 13px;
-
-        z-index: 2;
-
-        border: none;
-
-        background: transparent;
-
-        color:
-            rgba(244,230,200,.45);
-
-        cursor: pointer;
-
-        font-family: inherit;
-
-        font-size: .9rem;
-    }
-
-
-    .show-password:hover {
-
-        color: var(--gold-light);
-    }
-
-
-    .password-field .field-icon {
-
+    .art {
         display: none;
     }
 
-
-    /* =====================================================
-       OPTIONS
-    ===================================================== */
-
-    .options {
-
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        margin: 4px 0 20px;
-
-        font-size: .95rem;
-    }
-
-
-    .remember {
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 7px;
-
-        color:
-            rgba(244,230,200,.45);
-
-        cursor: pointer;
-    }
-
-
-    .remember input {
-
-        accent-color:
-            var(--maple);
-    }
-
-
-    .forgot {
-
-        color:
-            var(--gold);
-
-        text-decoration: none;
-
-        cursor: pointer;
-    }
-
-
-    /* =====================================================
-       MAIN BUTTON
-    ===================================================== */
-
-    .main-button {
-
-        width: 100%;
-
-        padding: 14px;
-
-        border: none;
-
-        border-radius: 10px;
-
-        color: #170c08;
-
-        background:
-            linear-gradient(
-                110deg,
-                var(--gold-light),
-                var(--orange),
-                var(--maple)
-            );
-
-        background-size: 200% 100%;
-
-        font-family: inherit;
-
-        font-size: 1.15rem;
-
-        font-weight: 700;
-
-        letter-spacing: 1px;
-
-        cursor: pointer;
-
-        box-shadow:
-            0 8px 25px
-            rgba(196,73,45,.2);
-
-        transition:
-            .35s;
-    }
-
-
-    .main-button:hover {
-
-        background-position: 100% 0;
+    .signup-panel {
+        opacity: 0;
 
         transform:
-            translateY(-2px);
+            translateX(35px)
+            scale(.98);
 
-        box-shadow:
-            0 10px 35px
-            rgba(196,73,45,.35);
+        pointer-events: none;
     }
 
-
-    .main-button:active {
+    .auth.register-mode .login-panel {
+        opacity: 0;
 
         transform:
-            translateY(0)
+            translateX(-35px)
             scale(.98);
     }
 
-
-    /* =====================================================
-       SWITCH
-    ===================================================== */
-
-    .switch {
-
-        margin-top: 20px;
-
-        text-align: center;
-
-        color:
-            rgba(244,230,200,.42);
-
-        font-size: 1rem;
-    }
-
-
-    .switch button {
-
-        border: none;
-
-        background: none;
-
-        color:
-            var(--gold-light);
-
-        cursor: pointer;
-
-        font-family: inherit;
-
-        font-weight: 700;
-    }
-
-
-    /* =====================================================
-       ORNAMENT
-    ===================================================== */
-
-    .ornament {
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 12px;
-
-        margin: 22px 0;
-
-        color:
-            rgba(217,164,65,.35);
-
-        font-size: 1rem;
-    }
-
-
-    .ornament::before,
-    .ornament::after {
-
-        content: "";
-
-        height: 1px;
-
-        flex: 1;
-
-        background:
-            linear-gradient(
-                90deg,
-                transparent,
-                rgba(217,164,65,.25)
-            );
-    }
-
-
-    .ornament::after {
-
-        background:
-            linear-gradient(
-                90deg,
-                rgba(217,164,65,.25),
-                transparent
-            );
-    }
-
-
-    /* =====================================================
-       SIDE ART
-    ===================================================== */
-
-    .art {
-
-        position: absolute;
-
-        top: 0;
-
-        right: 0;
-
-        width: 50%;
-        height: 100%;
-
-        overflow: hidden;
-
-        border-radius:
-            0 28px 28px 0;
-
-        background:
-
-            linear-gradient(
-                145deg,
-                rgba(111,24,34,.9),
-                rgba(196,73,45,.65)
-            );
-
-        border:
-            1px solid
-            rgba(242,202,114,.25);
-
-        transform-origin:
-            left center;
-
-        backface-visibility:
-            hidden;
-
-        z-index: 20;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        text-align: center;
-    }
-
-
-    .art::before {
-
-        content: "";
-
-        position: absolute;
-
-        width: 300px;
-        height: 300px;
-
-        border-radius: 50%;
-
-        border:
-            1px solid
-            rgba(242,202,114,.25);
-
-        box-shadow:
-
-            0 0 0 30px
-            rgba(242,202,114,.025),
-
-            0 0 0 70px
-            rgba(242,202,114,.02),
-
-            0 0 80px
-            rgba(0,0,0,.25);
-    }
-
-
-    .art::after {
-
-        content: "秋";
-
-        position: absolute;
-
-        font-size: 25rem;
-
-        color:
-            rgba(255,244,218,.045);
-
-        font-weight: 900;
-    }
-
-
-    .art-content {
-
-        position: relative;
-
-        z-index: 3;
-
-        width: 75%;
-    }
-
-
-    .art-season {
-
-        margin-bottom: 15px;
-
-        color:
-            var(--gold-light);
-
-        font-size: 1.1rem;
-
-        letter-spacing: 7px;
-    }
-
-
-    .art h2 {
-
-        margin-bottom: 15px;
-
-        color: white;
-
-        font-family:
-            "Cormorant Garamond",
-            serif;
-
-        font-size: 4.5rem;
-
-        font-weight: 600;
-    }
-
-
-    .art p {
-
-        margin-bottom: 25px;
-
-        color:
-            rgba(255,255,255,.72);
-
-        font-size: 1.15rem;
-
-        line-height: 1.8;
-    }
-
-
-    .art-button {
-
-        padding: 12px 27px;
-
-        border:
-            1px solid
-            rgba(255,255,255,.5);
-
-        border-radius: 30px;
-
-        color: white;
-
-        background:
-            rgba(255,255,255,.06);
-
-        backdrop-filter: blur(8px);
-
-        font-family: inherit;
-
-        font-size: 1.05rem;
-
-        cursor: pointer;
-
-        transition: .3s;
-    }
-
-
-    .art-button:hover {
-
-        color: #58151d;
-
-        background:
-            var(--gold-light);
-
-        border-color:
-            var(--gold-light);
-
-        box-shadow:
-            0 0 25px
-            rgba(242,202,114,.3);
-    }
-
-
-    /* =====================================================
-       FLIP
-    ===================================================== */
-
-    .auth.register-mode .art {
-
-        animation:
-            flip-to-register
-            .8s
-            cubic-bezier(.65,.05,.36,1)
-            forwards;
-    }
-
-
-    .auth.login-mode .art {
-
-        animation:
-            flip-to-login
-            .8s
-            cubic-bezier(.65,.05,.36,1)
-            forwards;
-    }
-
-
-    @keyframes flip-to-register {
-
-        from {
-            transform:
-                rotateY(0deg);
-        }
-
-        to {
-            transform:
-                rotateY(-180deg);
-        }
-    }
-
-
-    @keyframes flip-to-login {
-
-        from {
-            transform:
-                rotateY(-180deg);
-        }
-
-        to {
-            transform:
-                rotateY(0deg);
-        }
-    }
-
-
-    .auth.register-mode
-    .login-panel {
-
-        animation:
-            fade-away
-            .5s
-            forwards;
-    }
-
-
-    .auth.register-mode
-    .signup-panel {
-
-        animation:
-            fade-in
-            .8s
-            .25s
-            forwards;
-    }
-
-
-    .auth.login-mode
-    .login-panel {
-
-        animation:
-            fade-in
-            .8s
-            .25s
-            forwards;
-    }
-
-
-    .auth.login-mode
-    .signup-panel {
-
-        animation:
-            fade-away
-            .5s
-            forwards;
-    }
-
-
-    @keyframes fade-in {
-
-        from {
-            opacity: .35;
-            transform:
-                translateX(25px);
-        }
-
-        to {
-            opacity: 1;
-            transform:
-                translateX(0);
-        }
-    }
-
-
-    @keyframes fade-away {
-
-        from {
-            opacity: 1;
-        }
-
-        to {
-            opacity: .3;
-        }
-    }
-
-
-    /* =====================================================
-       TOAST
-    ===================================================== */
-
-    .toast {
-
-        position: fixed;
-
-        z-index: 100;
-
-        left: 50%;
-
-        bottom: 25px;
-
-        transform:
-            translate(-50%, 100px);
-
-        padding: 13px 22px;
-
-        border:
-            1px solid
-            rgba(242,202,114,.25);
-
-        border-radius: 10px;
-
-        color:
-            var(--cream);
-
-        background:
-            rgba(17,16,24,.9);
-
-        backdrop-filter: blur(15px);
-
-        box-shadow:
-            0 10px 40px
-            rgba(0,0,0,.4);
-
-        font-size: 1.05rem;
-
-        opacity: 0;
-
-        transition: .4s;
-    }
-
-
-    .toast.show {
-
+    .auth.register-mode .signup-panel {
         opacity: 1;
 
         transform:
-            translate(-50%, 0);
+            translateX(0)
+            scale(1);
+
+        pointer-events: auto;
     }
 
+    .auth.login-mode .login-panel {
+        opacity: 1;
 
-    /* =====================================================
-       MOBILE
-    ===================================================== */
+        transform:
+            translateX(0)
+            scale(1);
 
-    @media (max-width: 760px) {
-
-        body {
-
-            overflow-y: auto;
-
-            padding: 25px 15px;
-        }
-
-
-        .moon {
-
-            width: 100px;
-            height: 100px;
-
-            top: 4%;
-            right: 4%;
-        }
-
-
-        .moon::after {
-
-            width: 85px;
-            height: 85px;
-
-            left: 20px;
-        }
-
-
-        .kanji {
-
-            font-size: 16rem;
-        }
-
-
-        .scene {
-
-            height: 680px;
-
-            width: 100%;
-
-            max-width: 420px;
-        }
-
-
-        .auth {
-
-            height: 680px;
-        }
-
-
-        .form-panel {
-
-            width: 100%;
-
-            height: 100%;
-
-            border-radius: 25px;
-        }
-
-
-        .login-panel,
-        .signup-panel {
-
-            left: 0;
-            right: 0;
-
-            opacity: 1;
-        }
-
-
-        .signup-panel {
-
-            opacity: 0;
-
-            pointer-events: none;
-        }
-
-
-        .art {
-
-            display: none;
-        }
-
-
-        .auth.register-mode
-        .login-panel {
-
-            opacity: 0;
-
-            pointer-events: none;
-        }
-
-
-        .auth.register-mode
-        .signup-panel {
-
-            opacity: 1;
-
-            pointer-events: auto;
-        }
-
-
-        .auth.login-mode
-        .login-panel {
-
-            opacity: 1;
-
-            pointer-events: auto;
-        }
-
-
-        .auth.login-mode
-        .signup-panel {
-
-            opacity: 0;
-
-            pointer-events: none;
-        }
-
-
-        .form-inner {
-
-            max-width: 340px;
-        }
+        pointer-events: auto;
     }
 
+    .auth.login-mode .signup-panel {
+        opacity: 0;
 
-    @media (max-width: 400px) {
+        transform:
+            translateX(35px)
+            scale(.98);
 
-        html {
-            font-size: 58%;
-        }
-
-
-        .scene,
-        .auth {
-
-            height: 650px;
-        }
-
-
-        .form-panel {
-
-            padding: 30px 22px;
-        }
-
-
-        h1 {
-
-            font-size: 3.4rem;
-        }
+        pointer-events: none;
     }
 
+    .form-inner {
+        max-width: 350px;
+    }
+
+    h1 {
+        font-size: 3.6rem;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    html {
+        font-size: 58%;
+    }
+
+    body {
+        padding: 15px;
+    }
+
+    .scene,
+    .auth {
+        height: 650px;
+    }
+
+    .form-panel {
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 3.2rem;
+    }
+
+    .subtitle {
+        margin-bottom: 18px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
 </style>
-```
-
 </head>
 
 <body>
 
-```
 <!-- =====================================================
      BACKGROUND
 ====================================================== -->
@@ -1501,23 +1802,35 @@
 
     <div class="mist"></div>
 
-    <div class="kanji left">
-        紅
-    </div>
-
-    <div class="kanji right">
-        秋
-    </div>
+    <div class="kanji left">紅</div>
+    <div class="kanji right">秋</div>
 
 </div>
 
 
 <!-- =====================================================
-     FALLING MOMIJI
+     PARTICLES
+====================================================== -->
+
+<div class="particles">
+
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+</div>
+
+
+<!-- =====================================================
+     FALLING LEAVES
 ====================================================== -->
 
 <div class="leaves">
 
+    <div class="leaf"></div>
     <div class="leaf"></div>
     <div class="leaf"></div>
     <div class="leaf"></div>
@@ -1535,382 +1848,376 @@
 
 <main class="scene">
 
-    <div
-        class="auth login-mode"
-        id="auth"
-    >
+<div class="auth login-mode" id="auth">
 
 
-        <!-- =================================================
-             LOGIN
-        ================================================== -->
+<!-- =====================================================
+     LOGIN PANEL
+====================================================== -->
 
-        <section class="form-panel login-panel">
+<section class="form-panel login-panel">
 
-            <div class="form-inner">
+<div class="form-inner">
 
-                <div class="brand">
+<div class="brand">
 
-                    <div class="brand-mark">
-                        秋
-                    </div>
+    <div class="brand-mark">秋</div>
 
-                    <div class="brand-text">
+    <div class="brand-text">
 
-                        <strong>
-                            AKI
-                        </strong>
+        <strong>AKI</strong>
 
-                        <span>
-                            Japanese Autumn
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="japanese-title">
-                    秋の夜
-                </div>
-
-
-                <h1>
-                    Welcome Back
-                </h1>
-
-
-                <p class="subtitle">
-                    Return to the quiet glow of autumn.
-                </p>
-
-
-                <form id="loginForm">
-
-
-                    <div class="field">
-
-                        <label class="field-label">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="loginEmail"
-                            placeholder="your@email.com"
-                            autocomplete="email"
-                            required
-                        >
-
-                        <span class="field-icon">
-                            ✉
-                        </span>
-
-                    </div>
-
-
-                    <div class="field password-field">
-
-                        <label class="field-label">
-                            Password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="loginPassword"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            class="show-password"
-                            data-target="loginPassword"
-                        >
-                            Show
-                        </button>
-
-                    </div>
-
-
-                    <div class="options">
-
-                        <label class="remember">
-
-                            <input
-                                type="checkbox"
-                            >
-
-                            Remember me
-
-                        </label>
-
-
-                        <a
-                            href="#"
-                            class="forgot"
-                            id="forgot"
-                        >
-                            Forgot password?
-                        </a>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="main-button"
-                    >
-                        Enter the Garden
-                    </button>
-
-                </form>
-
-
-                <div class="ornament">
-                    ❈
-                </div>
-
-
-                <div class="switch">
-
-                    New here?
-
-                    <button
-                        type="button"
-                        id="goRegister"
-                    >
-                        Create an account
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             SIGNUP
-        ================================================== -->
-
-        <section class="form-panel signup-panel">
-
-            <div class="form-inner">
-
-                <div class="brand">
-
-                    <div class="brand-mark">
-                        紅
-                    </div>
-
-                    <div class="brand-text">
-
-                        <strong>
-                            MOMIJI
-                        </strong>
-
-                        <span>
-                            紅葉 · Maple Leaves
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="japanese-title">
-                    紅葉の季節
-                </div>
-
-
-                <h1>
-                    Begin Anew
-                </h1>
-
-
-                <p class="subtitle">
-                    Create your account beneath
-                    the autumn moon.
-                </p>
-
-
-                <form id="signupForm">
-
-
-                    <div class="field">
-
-                        <label class="field-label">
-                            Your name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="signupName"
-                            placeholder="Your name"
-                            autocomplete="name"
-                            required
-                        >
-
-                        <span class="field-icon">
-                            ◇
-                        </span>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label class="field-label">
-                            Email
-                        </label>
-
-                        <input
-                            type="email"
-                            id="signupEmail"
-                            placeholder="your@email.com"
-                            autocomplete="email"
-                            required
-                        >
-
-                        <span class="field-icon">
-                            ✉
-                        </span>
-
-                    </div>
-
-
-                    <div class="field password-field">
-
-                        <label class="field-label">
-                            Password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="signupPassword"
-                            placeholder="Create a password"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                        <button
-                            type="button"
-                            class="show-password"
-                            data-target="signupPassword"
-                        >
-                            Show
-                        </button>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label class="field-label">
-                            Confirm password
-                        </label>
-
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            placeholder="Repeat password"
-                            autocomplete="new-password"
-                            required
-                        >
-
-                    </div>
-
-
-                    <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="terms"
-                            required
-                        >
-
-                        I accept the terms
-
-                    </label>
-
-
-                    <button
-                        type="submit"
-                        class="main-button"
-                    >
-                        Plant Your First Seed
-                    </button>
-
-                </form>
-
-
-                <div class="ornament">
-                    ❈
-                </div>
-
-
-                <div class="switch">
-
-                    Already a member?
-
-                    <button
-                        type="button"
-                        id="goLogin"
-                    >
-                        Return to login
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             ART PANEL
-        ================================================== -->
-
-        <section class="art">
-
-            <div class="art-content">
-
-                <div class="art-season">
-                    AUTUMN · 秋
-                </div>
-
-                <h2>
-                    月と紅葉
-                </h2>
-
-                <p>
-                    Moonlight, maple leaves,
-                    and the quiet beauty
-                    of another beginning.
-                </p>
-
-                <button
-                    class="art-button"
-                    id="artButton"
-                >
-                    <span id="artButtonText">
-                        Create Account
-                    </span>
-
-                    <span>
-                        →
-                    </span>
-                </button>
-
-            </div>
-
-        </section>
-
+        <span>
+            Japanese Autumn
+        </span>
 
     </div>
 
+</div>
+
+
+<div class="japanese-title">
+    秋の夜
+</div>
+
+
+<h1>
+    Welcome Back
+</h1>
+
+
+<p class="subtitle">
+    Return to the quiet glow of autumn.
+</p>
+
+
+<form id="loginForm">
+
+<div class="field">
+
+    <label class="field-label">
+        Email
+    </label>
+
+    <input
+        type="email"
+        id="loginEmail"
+        placeholder="your@email.com"
+        autocomplete="email"
+        required
+    >
+
+    <span class="field-icon">
+        ✉
+    </span>
+
+</div>
+
+
+<div class="field password-field">
+
+    <label class="field-label">
+        Password
+    </label>
+
+    <input
+        type="password"
+        id="loginPassword"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        minlength="6"
+        required
+    >
+
+    <button
+        type="button"
+        class="show-password"
+        data-target="loginPassword"
+    >
+        Show
+    </button>
+
+</div>
+
+
+<div class="options">
+
+    <label class="remember">
+
+        <input
+            type="checkbox"
+            id="remember"
+        >
+
+        Remember me
+
+    </label>
+
+
+    <a
+        href="#"
+        class="forgot"
+        id="forgot"
+    >
+        Forgot password?
+    </a>
+
+</div>
+
+
+<button
+    type="submit"
+    class="main-button"
+>
+    Enter the Garden
+</button>
+
+</form>
+
+
+<div class="ornament">
+    ❈
+</div>
+
+
+<div class="switch">
+
+    New here?
+
+    <button
+        type="button"
+        id="goRegister"
+    >
+        Create an account
+    </button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SIGNUP PANEL
+====================================================== -->
+
+<section class="form-panel signup-panel">
+
+<div class="form-inner">
+
+<div class="brand">
+
+    <div class="brand-mark">
+        紅
+    </div>
+
+    <div class="brand-text">
+
+        <strong>MOMIJI</strong>
+
+        <span>
+            紅葉 · Maple Leaves
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="japanese-title">
+    紅葉の季節
+</div>
+
+
+<h1>
+    Begin Anew
+</h1>
+
+
+<p class="subtitle">
+    Create your account beneath the autumn moon.
+</p>
+
+
+<form id="signupForm">
+
+<div class="field">
+
+    <label class="field-label">
+        Your name
+    </label>
+
+    <input
+        type="text"
+        id="signupName"
+        placeholder="Your name"
+        autocomplete="name"
+        required
+    >
+
+    <span class="field-icon">
+        ◇
+    </span>
+
+</div>
+
+
+<div class="field">
+
+    <label class="field-label">
+        Email
+    </label>
+
+    <input
+        type="email"
+        id="signupEmail"
+        placeholder="your@email.com"
+        autocomplete="email"
+        required
+    >
+
+    <span class="field-icon">
+        ✉
+    </span>
+
+</div>
+
+
+<div class="field password-field">
+
+    <label class="field-label">
+        Password
+    </label>
+
+    <input
+        type="password"
+        id="signupPassword"
+        placeholder="Create a password"
+        autocomplete="new-password"
+        minlength="6"
+        required
+    >
+
+    <button
+        type="button"
+        class="show-password"
+        data-target="signupPassword"
+    >
+        Show
+    </button>
+
+</div>
+
+
+<div class="field">
+
+    <label class="field-label">
+        Confirm password
+    </label>
+
+    <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Repeat password"
+        autocomplete="new-password"
+        minlength="6"
+        required
+    >
+
+</div>
+
+
+<label class="remember">
+
+    <input
+        type="checkbox"
+        id="terms"
+        required
+    >
+
+    I accept the terms
+
+</label>
+
+
+<button
+    type="submit"
+    class="main-button"
+>
+    Plant Your First Seed
+</button>
+
+</form>
+
+
+<div class="ornament">
+    ❈
+</div>
+
+
+<div class="switch">
+
+    Already a member?
+
+    <button
+        type="button"
+        id="goLogin"
+    >
+        Return to login
+    </button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ART PANEL
+====================================================== -->
+
+<section class="art">
+
+<div class="art-content">
+
+    <div class="art-season">
+        AUTUMN · 秋
+    </div>
+
+    <h2>
+        月と紅葉
+    </h2>
+
+    <p>
+        Moonlight, maple leaves,
+        and the quiet beauty
+        of another beginning.
+    </p>
+
+    <button
+        class="art-button"
+        id="artButton"
+        type="button"
+    >
+
+        <span id="artButtonText">
+            Create Account
+        </span>
+
+        <span>
+            →
+        </span>
+
+    </button>
+
+</div>
+
+</section>
+
+
+</div>
 </main>
 
 
@@ -1921,379 +2228,387 @@
 <div
     class="toast"
     id="toast"
+    role="status"
+    aria-live="polite"
 ></div>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-====================================================== -->
-
 <script>
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-    const auth =
-        document.getElementById("auth");
+const auth =
+    document.getElementById("auth");
 
-    const goRegister =
-        document.getElementById("goRegister");
+const goRegister =
+    document.getElementById("goRegister");
 
-    const goLogin =
-        document.getElementById("goLogin");
+const goLogin =
+    document.getElementById("goLogin");
 
-    const artButton =
-        document.getElementById("artButton");
+const artButton =
+    document.getElementById("artButton");
 
-    const artButtonText =
-        document.getElementById("artButtonText");
+const artButtonText =
+    document.getElementById("artButtonText");
 
-    const loginForm =
-        document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
 
-    const signupForm =
-        document.getElementById("signupForm");
+const signupForm =
+    document.getElementById("signupForm");
 
-    const forgot =
-        document.getElementById("forgot");
+const forgot =
+    document.getElementById("forgot");
 
-    const toast =
-        document.getElementById("toast");
+const toast =
+    document.getElementById("toast");
 
 
-    /* ============================================
-       REGISTER MODE
-    ============================================ */
+/* =========================================================
+   STATE
+========================================================= */
 
-    function showRegister() {
+let currentMode = "login";
 
-        auth.classList.remove("login-mode");
 
-        auth.classList.add("register-mode");
+function showRegister() {
 
-        artButtonText.textContent =
-            "Return to Login";
+    if (currentMode === "register") {
+        return;
     }
 
+    currentMode = "register";
 
-    /* ============================================
-       LOGIN MODE
-    ============================================ */
+    auth.classList.remove("login-mode");
 
-    function showLogin() {
+    void auth.offsetWidth;
 
-        auth.classList.remove("register-mode");
+    auth.classList.add("register-mode");
 
-        auth.classList.add("login-mode");
+    artButtonText.textContent =
+        "Return to Login";
+}
 
-        artButtonText.textContent =
-            "Create Account";
+
+function showLogin() {
+
+    if (currentMode === "login") {
+        return;
     }
 
+    currentMode = "login";
 
-    goRegister.addEventListener(
-        "click",
-        showRegister
-    );
+    auth.classList.remove("register-mode");
+
+    void auth.offsetWidth;
+
+    auth.classList.add("login-mode");
+
+    artButtonText.textContent =
+        "Create Account";
+}
 
 
-    goLogin.addEventListener(
-        "click",
-        showLogin
-    );
+/* =========================================================
+   SWITCH BUTTONS
+========================================================= */
 
+goRegister.addEventListener(
+    "click",
+    showRegister
+);
 
-    artButton.addEventListener(
-        "click",
-        () => {
+goLogin.addEventListener(
+    "click",
+    showLogin
+);
 
-            if (
-                auth.classList.contains(
-                    "register-mode"
-                )
-            ) {
+artButton.addEventListener(
+    "click",
+    () => {
 
-                showLogin();
-
-            } else {
-
-                showRegister();
-
-            }
-
+        if (currentMode === "login") {
+            showRegister();
+        } else {
+            showLogin();
         }
-    );
 
+    }
+);
 
-    /* ============================================
-       PASSWORD SHOW / HIDE
-    ============================================ */
 
-    document
-        .querySelectorAll(".show-password")
-        .forEach(button => {
+/* =========================================================
+   PASSWORD SHOW / HIDE
+========================================================= */
 
-            button.addEventListener(
-                "click",
-                () => {
+document
+    .querySelectorAll(".show-password")
+    .forEach(button => {
 
-                    const input =
-                        document.getElementById(
-                            button.dataset.target
-                        );
+        button.addEventListener(
+            "click",
+            () => {
 
-
-                    if (
-                        input.type ===
-                        "password"
-                    ) {
-
-                        input.type = "text";
-
-                        button.textContent =
-                            "Hide";
-
-                    } else {
-
-                        input.type = "password";
-
-                        button.textContent =
-                            "Show";
-                    }
-
-                }
-            );
-
-        });
-
-
-    /* ============================================
-       LOGIN
-    ============================================ */
-
-    loginForm.addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-
-            const email =
-                document
-                    .getElementById(
-                        "loginEmail"
-                    )
-                    .value
-                    .trim();
-
-            const password =
-                document
-                    .getElementById(
-                        "loginPassword"
-                    )
-                    .value;
-
-
-            if (!email || !password) {
-
-                showToast(
-                    "Please complete all fields."
-                );
-
-                return;
-            }
-
-
-            if (password.length < 6) {
-
-                showToast(
-                    "Password must be at least 6 characters."
-                );
-
-                return;
-            }
-
-
-            showToast(
-                "ようこそ — Welcome back."
-            );
-
-        }
-    );
-
-
-    /* ============================================
-       SIGNUP
-    ============================================ */
-
-    signupForm.addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-
-            const name =
-                document
-                    .getElementById(
-                        "signupName"
-                    )
-                    .value
-                    .trim();
-
-            const email =
-                document
-                    .getElementById(
-                        "signupEmail"
-                    )
-                    .value
-                    .trim();
-
-            const password =
-                document
-                    .getElementById(
-                        "signupPassword"
-                    )
-                    .value;
-
-            const confirm =
-                document
-                    .getElementById(
-                        "confirmPassword"
-                    )
-                    .value;
-
-            const terms =
-                document
-                    .getElementById(
-                        "terms"
-                    )
-                    .checked;
-
-
-            if (
-                !name ||
-                !email ||
-                !password ||
-                !confirm
-            ) {
-
-                showToast(
-                    "Please complete all fields."
-                );
-
-                return;
-            }
-
-
-            if (password.length < 6) {
-
-                showToast(
-                    "Password needs at least 6 characters."
-                );
-
-                return;
-            }
-
-
-            if (
-                password !== confirm
-            ) {
-
-                showToast(
-                    "Passwords do not match."
-                );
-
-                return;
-            }
-
-
-            if (!terms) {
-
-                showToast(
-                    "Please accept the terms."
-                );
-
-                return;
-            }
-
-
-            showToast(
-                "おめでとう — Your journey begins."
-            );
-
-        }
-    );
-
-
-    /* ============================================
-       FORGOT PASSWORD
-    ============================================ */
-
-    forgot.addEventListener(
-        "click",
-        event => {
-
-            event.preventDefault();
-
-
-            const email =
-                document
-                    .getElementById(
-                        "loginEmail"
-                    )
-                    .value
-                    .trim();
-
-
-            if (!email) {
-
-                showToast(
-                    "Enter your email first."
-                );
-
-                return;
-            }
-
-
-            showToast(
-                "A reset link would be sent here."
-            );
-
-        }
-    );
-
-
-    /* ============================================
-       TOAST
-    ============================================ */
-
-    let toastTimer;
-
-
-    function showToast(message) {
-
-        clearTimeout(toastTimer);
-
-        toast.textContent =
-            message;
-
-        toast.classList.add("show");
-
-
-        toastTimer =
-            setTimeout(
-                () => {
-
-                    toast.classList.remove(
-                        "show"
+                const input =
+                    document.getElementById(
+                        button.dataset.target
                     );
 
-                },
-                3200
-            );
-    }
+                const isPassword =
+                    input.type === "password";
 
+                input.type =
+                    isPassword
+                        ? "text"
+                        : "password";
+
+                button.textContent =
+                    isPassword
+                        ? "Hide"
+                        : "Show";
+
+                button.setAttribute(
+                    "aria-label",
+                    isPassword
+                        ? "Hide password"
+                        : "Show password"
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginForm.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+        if (!loginForm.checkValidity()) {
+
+            loginForm.reportValidity();
+
+            showToast(
+                "Please complete the form correctly."
+            );
+
+            return;
+        }
+
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
+
+        if (password.length < 6) {
+
+            showToast(
+                "Password must be at least 6 characters."
+            );
+
+            return;
+        }
+
+        showToast(
+            "ようこそ — Welcome back."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SIGNUP
+========================================================= */
+
+signupForm.addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+        if (!signupForm.checkValidity()) {
+
+            signupForm.reportValidity();
+
+            showToast(
+                "Please complete the form correctly."
+            );
+
+            return;
+        }
+
+        const password =
+            document
+                .getElementById("signupPassword")
+                .value;
+
+        const confirm =
+            document
+                .getElementById("confirmPassword")
+                .value;
+
+        if (password.length < 6) {
+
+            showToast(
+                "Password needs at least 6 characters."
+            );
+
+            return;
+        }
+
+        if (password !== confirm) {
+
+            showToast(
+                "Passwords do not match."
+            );
+
+            return;
+        }
+
+        showToast(
+            "おめでとう — Your journey begins."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+forgot.addEventListener(
+    "click",
+    event => {
+
+        event.preventDefault();
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
+
+        if (!email) {
+
+            showToast(
+                "Enter your email first."
+            );
+
+            document
+                .getElementById("loginEmail")
+                .focus();
+
+            return;
+        }
+
+        showToast(
+            "A password reset link would be sent here."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(message) {
+
+    clearTimeout(toastTimer);
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3200
+        );
+}
+
+
+/* =========================================================
+   MOUSE PARALLAX
+========================================================= */
+
+const scene =
+    document.querySelector(".scene");
+
+const background =
+    document.querySelector(".background");
+
+if (
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+
+    window.addEventListener(
+        "mousemove",
+        event => {
+
+            const x =
+                (event.clientX / window.innerWidth - .5);
+
+            const y =
+                (event.clientY / window.innerHeight - .5);
+
+            scene.style.transform =
+                `
+                translate(
+                    ${x * 7}px,
+                    ${y * 7}px
+                )
+                `;
+
+            background.style.transform =
+                `
+                translate(
+                    ${x * -10}px,
+                    ${y * -10}px
+                )
+                `;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   KEYBOARD ESC
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Escape") {
+            showLogin();
+        }
+
+    }
+);
 </script>
-```
 
 </body>
-
 </html>
